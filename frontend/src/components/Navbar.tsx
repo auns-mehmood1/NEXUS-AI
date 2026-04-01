@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { LANGUAGES } from '@/lib/models-data';
+import { usePublicContent, type LanguageOption } from '@/lib/catalog';
 import { useAuthStore } from '@/store/auth';
 import { authApi } from '@/lib/api';
 
@@ -14,6 +14,8 @@ export default function Navbar() {
   const [activeLang, setActiveLang] = useState({ code: 'EN', label: 'English' });
   const [mobileOpen, setMobileOpen] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
+  const { data: content } = usePublicContent();
+  const languages = content?.languages ?? [];
 
   const navLinks = [
     { href: '/chat', label: 'Chat Hub' },
@@ -22,7 +24,7 @@ export default function Navbar() {
     { href: '/agents', label: 'Agents' },
   ];
 
-  function setLang(lang: { code: string; label: string }) {
+  function setLang(lang: LanguageOption) {
     setActiveLang(lang);
     setLangOpen(false);
     const rtl = ['AR', 'UR'];
@@ -113,7 +115,7 @@ export default function Navbar() {
               borderRadius: 'var(--radius)', boxShadow: 'var(--shadow-md)',
               minWidth: 160, zIndex: 300, overflow: 'hidden',
             }}>
-              {LANGUAGES.map(l => (
+              {languages.map(l => (
                 <button
                   key={l.code}
                   onClick={() => setLang(l)}

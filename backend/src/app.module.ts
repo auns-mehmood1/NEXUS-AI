@@ -9,6 +9,7 @@ import { UploadModule } from './upload/upload.module';
 import { FormsModule } from './forms/forms.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AiModule } from './ai/ai.module';
+import { ContentModule } from './content/content.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AiModule } from './ai/ai.module';
     FormsModule,
     DashboardModule,
     AiModule,
+    ContentModule,
   ],
 })
 export class AppModule {}

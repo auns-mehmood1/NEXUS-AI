@@ -58,6 +58,10 @@ export const modelsApi = {
   get: (id: string) => api.get(`/models/${id}`),
 };
 
+export const contentApi = {
+  public: () => api.get('/content/public'),
+};
+
 // ── Chat ──────────────────────────────────────────────────────
 export const chatApi = {
   createSession: (data: { modelId: string; isGuest?: boolean }) =>

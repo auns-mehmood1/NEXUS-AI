@@ -1,8 +1,8 @@
 'use client';
-import React, { useEffect, useState } from 'react';
-import { chatApi } from '@/lib/api';
-import { MODELS_DATA } from '@/lib/models-data';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { chatApi } from '@/lib/api';
+import { useModels } from '@/lib/catalog';
 
 interface Session {
   _id: string;
@@ -14,19 +14,21 @@ interface Session {
 
 export default function HistoryPage() {
   const router = useRouter();
+  const { data: models = [] } = useModels();
   const [sessions, setSessions] = useState<Session[]>([]);
   const [loading, setLoading] = useState(true);
+  const modelMap = useMemo(() => new Map(models.map((model) => [model.id, model])), [models]);
 
   useEffect(() => {
     chatApi.history()
-      .then(r => setSessions(r.data || []))
+      .then((response) => setSessions(response.data || []))
       .catch(() => setSessions([]))
       .finally(() => setLoading(false));
   }, []);
 
   async function deleteSession(id: string) {
     await chatApi.deleteSession(id);
-    setSessions(prev => prev.filter(s => s._id !== id));
+    setSessions((prev) => prev.filter((session) => session._id !== id));
   }
 
   if (loading) return <div style={{ padding: '2rem', color: 'var(--text2)' }}>Loading history...</div>;
@@ -45,19 +47,19 @@ export default function HistoryPage() {
 
       {sessions.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text2)' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>💬</div>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ðŸ’¬</div>
           <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, marginBottom: '0.5rem' }}>No conversations yet</h3>
           <p style={{ fontSize: '0.85rem', marginBottom: '1.5rem' }}>Start chatting to see your history here.</p>
           <button onClick={() => router.push('/chat')} style={{ background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.65rem 1.5rem', cursor: 'pointer', fontFamily: 'inherit' }}>Start Chatting</button>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {sessions.map(session => {
-            const model = MODELS_DATA.find(m => m.id === session.modelId);
+          {sessions.map((session) => {
+            const model = modelMap.get(session.modelId);
             const lastMsg = session.messages[session.messages.length - 1];
             return (
               <div key={session._id} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', display: 'flex', gap: 12, alignItems: 'center', boxShadow: 'var(--shadow)' }}>
-                <div style={{ width: 40, height: 40, background: model?.bg || 'var(--bg2)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>{model?.icon || '💬'}</div>
+                <div style={{ width: 40, height: 40, background: model?.bg || 'var(--bg2)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>{model?.icon || 'ðŸ’¬'}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: '0.88rem' }}>{model?.name || session.modelId}</div>
                   <div style={{ fontSize: '0.78rem', color: 'var(--text2)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

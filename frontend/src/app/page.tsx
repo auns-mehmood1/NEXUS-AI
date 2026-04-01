@@ -2,20 +2,19 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MODELS_DATA, type Model } from '@/lib/models-data';
-
-const STATS = [
-  { value: '400+', label: 'AI Models' },
-  { value: '50+', label: 'Providers' },
-  { value: '10M+', label: 'API Calls' },
-  { value: '99.9%', label: 'Uptime' },
-];
-
-const FEATURED = MODELS_DATA.filter(m => m.badge === 'hot').slice(0, 6);
+import { useModels, usePublicContent, type Model } from '@/lib/catalog';
 
 export default function HomePage() {
   const router = useRouter();
   const [query, setQuery] = useState('');
+  const { data: models = [] } = useModels();
+  const { data: content } = usePublicContent();
+
+  const stats = content?.homeStats ?? [];
+  const featured = models.filter((model) => model.badge === 'hot').slice(0, 6);
+  const heroModels = (content?.homeHeroModelIds ?? [])
+    .map((modelId) => models.find((model) => model.id === modelId))
+    .filter((model): model is Model => Boolean(model));
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -30,7 +29,7 @@ export default function HomePage() {
         display: 'flex', flexDirection: 'column', alignItems: 'center',
         justifyContent: 'center', padding: '5rem 2rem 4rem',
         textAlign: 'center',
-        background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(200,98,42,0.07) 0%, transparent 70%)',
+        background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(91,79,233,0.07) 0%, transparent 70%)',
         position: 'relative', overflow: 'hidden',
       }}>
         <div style={{
@@ -72,10 +71,10 @@ export default function HomePage() {
           </div>
         </form>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'center', position: 'relative' }}>
-          {['GPT-5', 'Claude Opus 4.6', 'Gemini 2.5 Pro', 'Llama 4 Maverick', 'Grok-4'].map(m => (
-            <Link key={m} href={`/chat?model=${encodeURIComponent(m)}`}>
+          {heroModels.map((model) => (
+            <Link key={model.id} href={`/chat?model=${encodeURIComponent(model.id)}`}>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, background: 'white', border: '1px solid var(--border2)', borderRadius: '2rem', padding: '0.22rem 0.75rem', fontSize: '0.78rem', color: 'var(--text2)', boxShadow: 'var(--shadow)', cursor: 'pointer' }}>
-                {m}
+                {model.name}
               </span>
             </Link>
           ))}
@@ -84,7 +83,7 @@ export default function HomePage() {
 
       {/* Stats */}
       <section style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 1, background: 'var(--border)', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
-        {STATS.map(s => (
+        {stats.map(s => (
           <div key={s.label} style={{ background: 'var(--white)', padding: '2rem', textAlign: 'center' }}>
             <div style={{ fontFamily: "'Syne', sans-serif", fontSize: '2.2rem', fontWeight: 700, color: 'var(--accent)' }}>{s.value}</div>
             <div style={{ fontSize: '0.85rem', color: 'var(--text2)' }}>{s.label}</div>
@@ -100,7 +99,7 @@ export default function HomePage() {
             <Link href="/marketplace" style={{ fontSize: '0.85rem', color: 'var(--accent)', fontWeight: 500 }}>View all →</Link>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
-            {FEATURED.map(m => <ModelCard key={m.id} model={m} />)}
+            {featured.map(m => <ModelCard key={m.id} model={m} />)}
           </div>
         </div>
       </section>

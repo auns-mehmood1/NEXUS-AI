@@ -62,7 +62,7 @@ export class ChatService {
     session.messages.push(userMsg as any);
 
     // Get AI response
-    const modelData = this.modelsService.findOne(dto.modelId);
+    const modelData = await this.modelsService.findOne(dto.modelId);
     const modelName = modelData?.name || dto.modelId;
 
     const aiHistory = session.messages.map(m => ({ role: m.role, content: m.content }));

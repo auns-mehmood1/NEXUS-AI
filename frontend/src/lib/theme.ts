@@ -3,14 +3,14 @@ import { createTheme } from '@mui/material/styles';
 export const nexusTheme = createTheme({
   palette: {
     mode: 'light',
-    primary:   { main: '#C8622A', light: '#FDF1EB', dark: '#A34D1E' },
-    secondary: { main: '#1E4DA8', light: '#EBF0FC' },
-    background:{ default: '#F4F2EE', paper: '#FFFFFF' },
-    text:      { primary: '#1C1A16', secondary: '#5A5750', disabled: '#9E9B93' },
-    success:   { main: '#2E9E5B' },
-    error:     { main: '#9B2042' },
-    warning:   { main: '#8A5A00' },
-    info:      { main: '#0A5E49' },
+    primary:   { main: '#5B4FE9', light: '#EDECFD', dark: '#3D31CC' },
+    secondary: { main: '#2563EB', light: '#EFF6FF' },
+    background:{ default: '#F5F7FF', paper: '#FFFFFF' },
+    text:      { primary: '#0F1033', secondary: '#3D4270', disabled: '#8B90B8' },
+    success:   { main: '#16A34A' },
+    error:     { main: '#DC2626' },
+    warning:   { main: '#B45309' },
+    info:      { main: '#0D9488' },
   },
   typography: {
     fontFamily: "'Instrument Sans', sans-serif",
