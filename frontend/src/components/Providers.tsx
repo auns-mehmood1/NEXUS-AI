@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { nexusTheme } from '@/lib/theme';
 import { useAuthStore } from '@/store/auth';
 import { authApi } from '@/lib/api';
+import ThemeRegistry from '@/components/ThemeRegistry';
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const { setAuth, setLoading } = useAuthStore();
@@ -25,9 +26,11 @@ export default function Providers({ children }: { children: React.ReactNode }) {
   }, [setAuth, setLoading]);
 
   return (
-    <ThemeProvider theme={nexusTheme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <ThemeRegistry options={{ key: 'mui' }}>
+      <ThemeProvider theme={nexusTheme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </ThemeRegistry>
   );
 }
