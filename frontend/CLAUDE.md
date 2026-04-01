@@ -57,3 +57,56 @@ Own future edits inside:
 - Responsive behavior is intentional.
 - Every visible CTA has a working destination or action.
 - Guest and signed-in flows are ready to connect to the backend contracts.
+
+---
+
+## ✅ Implementation Status (Phase 1 Complete)
+
+### Setup & Run
+```bash
+cd frontend
+npm install
+cp .env.example .env.local   # set NEXT_PUBLIC_API_URL=http://localhost:3001/api
+npm run dev                  # http://localhost:3000
+npm run build                # production build
+```
+
+### Environment Variables
+| Variable | Default | Description |
+|---|---|---|
+| `NEXT_PUBLIC_API_URL` | `http://localhost:3001/api` | Backend API base URL |
+
+### Routes Built
+| Path | Description | Auth |
+|---|---|---|
+| `/` | Landing page with stats, featured models, CTA | No |
+| `/chat` | Chat Hub (3-column: models / chat / details) | Guest or user |
+| `/marketplace` | Model grid + sidebar filters + chips + modal | No |
+| `/discover` | New & trending model discovery | No |
+| `/agents` | Agent templates + 5-step creation wizard | No |
+| `/auth/login` | Login with guest migration on success | No |
+| `/auth/signup` | Signup | No |
+| `/dashboard` | Usage KPIs + 24h chart + top models | JWT |
+| `/dashboard/history` | Paginated chat sessions | JWT |
+| `/dashboard/settings` | Profile + preferences | JWT |
+| `/dashboard/billing` | Plans comparison + usage | JWT |
+
+### Guest Session Logic
+- `src/lib/guest-session.ts` — all localStorage operations
+- Session created on first Chat Hub visit (if not logged in)
+- Key: `nexus_guest_history` in localStorage
+- Expires exactly **3 hours** after `createdAt` (`+10800000ms`)
+- Banner in Chat Hub shows remaining time and prompts signup
+- On login: `POST /api/chat/migrate` moves guestId sessions to userId
+- `clearGuestSession()` called after successful migration
+
+### Language Selector
+- In `src/components/Navbar.tsx`
+- Sets `document.documentElement.dir = 'rtl'` for `AR`, `UR`
+- Resets to `ltr` for all other languages
+
+### Chat Hub Features
+- Left: 200 models shown (virtualized scroll), searchable
+- Center: messages, typing indicator, voice (Web Speech API), TTS, camera modal, file attach, CPANEL prompt tabs (7 categories × 6 prompts)
+- Right: model card, context/rating/price/reviews grid, 24h sparkline, quick actions grouped in 3 categories
+- Active model shown in input bar badge
