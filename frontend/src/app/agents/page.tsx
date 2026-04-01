@@ -42,7 +42,7 @@ export default function AgentsPage() {
       <div style={{ background: 'linear-gradient(135deg, var(--blue-lt) 0%, var(--white) 100%)', borderBottom: '1px solid var(--border)', padding: '3rem 2rem' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--blue-lt)', border: '1px solid var(--blue-border)', borderRadius: '2rem', padding: '0.3rem 0.9rem', fontSize: '0.78rem', color: 'var(--blue)', marginBottom: '1.25rem' }}>
-            ðŸ¤– Agent Builder â€” Beta
+            Agent Builder - Beta
           </div>
           <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: 'clamp(2rem, 4vw, 3rem)', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '1rem' }}>
             Build <span style={{ color: 'var(--blue)' }}>AI Agents</span>
@@ -82,7 +82,7 @@ export default function AgentsPage() {
                 {template.tags.map((tag) => <span key={tag} style={{ background: 'var(--bg2)', borderRadius: '2rem', padding: '0.12rem 0.5rem', fontSize: '0.7rem', color: 'var(--text2)' }}>{tag}</span>)}
               </div>
               <button onClick={() => startWizard(template)} style={{ background: 'var(--blue)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.5rem 1rem', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}>
-                Use Template â†’
+                Use Template -&gt;
               </button>
             </div>
           ))}
@@ -113,10 +113,10 @@ export default function AgentsPage() {
           <div style={{ background: 'var(--white)', borderRadius: 20, maxWidth: 600, width: '100%', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border)', display: 'flex', alignItems: 'center', gap: 12 }}>
               <div style={{ flex: 1 }}>
-                <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: '1.1rem' }}>ðŸ¤– Agent Creation Wizard</div>
+                <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: '1.1rem' }}>Agent Creation Wizard</div>
                 <div style={{ fontSize: '0.8rem', color: 'var(--text3)', marginTop: 2 }}>Step {wizardStep + 1} of {wizardSteps.length}: {wizardSteps[wizardStep]}</div>
               </div>
-              <button onClick={() => setWizardOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--text3)' }}>âœ•</button>
+              <button onClick={() => setWizardOpen(false)} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--text3)' }}>x</button>
             </div>
             <div style={{ padding: '0 1.5rem', paddingTop: '1rem', display: 'flex', gap: 4 }}>
               {wizardSteps.map((step, index) => (
@@ -146,9 +146,9 @@ export default function AgentsPage() {
                         <span style={{ fontSize: '1.1rem' }}>{model.icon}</span>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontWeight: 600, fontSize: '0.85rem' }}>{model.name}</div>
-                          <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{model.org} Â· {model.price}</div>
+                          <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{model.org} | {model.price}</div>
                         </div>
-                        <div style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>â­ {model.rating}</div>
+                        <div style={{ fontSize: '0.78rem', color: 'var(--text2)' }}>Rating {model.rating}</div>
                       </label>
                     ))}
                   </div>
@@ -183,22 +183,22 @@ export default function AgentsPage() {
                     </div>
                   ))}
                   <div style={{ background: 'var(--teal-lt)', border: '1px solid rgba(10,94,73,0.2)', borderRadius: 10, padding: '1rem', marginTop: '1rem', fontSize: '0.82rem', color: 'var(--teal)' }}>
-                    âœ… Your agent configuration is ready. Click "Deploy Agent" to make it live.
+                    Ready: Your agent configuration is ready. Click "Deploy Agent" to make it live.
                   </div>
                 </div>
               )}
             </div>
             <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border)', display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
               {wizardStep > 0 && (
-                <button onClick={() => setWizardStep((step) => step - 1)} style={{ background: 'none', border: '1px solid var(--border2)', borderRadius: '2rem', padding: '0.6rem 1.25rem', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>â† Back</button>
+                <button onClick={() => setWizardStep((step) => step - 1)} style={{ background: 'none', border: '1px solid var(--border2)', borderRadius: '2rem', padding: '0.6rem 1.25rem', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem' }}>&lt;- Back</button>
               )}
               {wizardStep < wizardSteps.length - 1 ? (
                 <button onClick={() => setWizardStep((step) => step + 1)} style={{ background: 'var(--blue)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.6rem 1.5rem', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600 }}>
-                  Continue â†’
+                  Continue -&gt;
                 </button>
               ) : (
                 <button onClick={() => { setWizardOpen(false); router.push('/chat?agent=new'); }} style={{ background: 'var(--teal)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.6rem 1.5rem', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 600 }}>
-                  ðŸš€ Deploy Agent
+                  Deploy Agent
                 </button>
               )}
             </div>

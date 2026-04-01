@@ -29,7 +29,7 @@ export default function DiscoverPage() {
         <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'var(--teal-lt)', border: '1px solid rgba(10,94,73,0.2)', borderRadius: '2rem', padding: '0.3rem 0.9rem', fontSize: '0.78rem', color: 'var(--teal)', marginBottom: '1rem' }}>
             <span style={{ width: 5, height: 5, background: 'var(--teal)', borderRadius: '50%', animation: 'pulse 2s infinite' }} />
-            Updated daily Â· Latest AI releases
+            Updated daily | Latest AI releases
           </div>
           <h1 style={{ fontFamily: "'Syne', sans-serif", fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 700, letterSpacing: '-0.03em', marginBottom: '1rem' }}>
             Discover <span style={{ color: 'var(--teal)' }}>New Models</span>
@@ -50,7 +50,7 @@ export default function DiscoverPage() {
 
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '2rem' }}>
         <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: '1.2rem', marginBottom: '1.5rem' }}>
-          ðŸ†• Recently Released Â· {filtered.length} models
+          Newly Released | {filtered.length} models
         </h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
           {filtered.map((model) => (
@@ -64,7 +64,7 @@ export default function DiscoverPage() {
                   </div>
                   <div style={{ fontSize: '0.75rem', color: 'var(--text3)' }}>{model.org}</div>
                 </div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text2)' }}>â­ {model.rating}</div>
+                <div style={{ fontSize: '0.8rem', color: 'var(--text2)' }}>Rating {model.rating}</div>
               </div>
               <p style={{ fontSize: '0.82rem', color: 'var(--text2)', lineHeight: 1.6, marginBottom: '0.75rem' }}>{model.desc}</p>
               <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', marginBottom: '1rem' }}>
@@ -82,14 +82,14 @@ export default function DiscoverPage() {
         </div>
 
         <div style={{ marginTop: '3rem' }}>
-          <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: '1.2rem', marginBottom: '1.5rem' }}>ðŸ”¥ Trending This Week</h2>
+          <h2 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: '1.2rem', marginBottom: '1.5rem' }}>Trending This Week</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 14 }}>
             {trending.map((model) => (
               <div key={model.id} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1rem', boxShadow: 'var(--shadow)', display: 'flex', gap: 10, alignItems: 'center' }}>
                 <div style={{ width: 40, height: 40, background: model.bg, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>{model.icon}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: '0.88rem' }}>{model.name}</div>
-                  <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{model.price} Â· â­ {model.rating}</div>
+                  <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{model.price} | Rating {model.rating}</div>
                 </div>
                 <button onClick={() => router.push(`/chat?model=${model.id}`)} style={{ background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.3rem 0.7rem', fontSize: '0.72rem', cursor: 'pointer', whiteSpace: 'nowrap', fontFamily: 'inherit' }}>Try</button>
               </div>

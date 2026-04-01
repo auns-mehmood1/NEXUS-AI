@@ -93,7 +93,7 @@ export default function MarketplacePage() {
           </div>
 
           <div style={{ marginBottom: '1.5rem' }}>
-            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.5rem' }}>Min Rating: â­ {ratingMin.toFixed(1)}</div>
+            <div style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: '0.5rem' }}>Min Rating: {ratingMin.toFixed(1)}</div>
             <input type="range" min={0} max={5} step={0.1} value={ratingMin} onChange={(e) => setRatingMin(+e.target.value)} style={{ width: '100%', accentColor: 'var(--accent)' }} />
           </div>
 
@@ -139,9 +139,9 @@ function MarketplaceCard({ model, onView, onUseInChat }: { model: Model; onView:
           </div>
           <div style={{ fontSize: '0.72rem', color: 'var(--text3)' }}>{model.org}</div>
         </div>
-        <div style={{ fontSize: '0.78rem', color: 'var(--text2)', display: 'flex', alignItems: 'center', gap: 2 }}>â­ {model.rating}</div>
+        <div style={{ fontSize: '0.78rem', color: 'var(--text2)', display: 'flex', alignItems: 'center', gap: 2 }}>Rating {model.rating}</div>
       </div>
-      <p style={{ fontSize: '0.78rem', color: 'var(--text2)', marginBottom: '0.6rem', lineHeight: 1.5, flex: 1 }}>{model.desc.length > 85 ? model.desc.slice(0, 85) + 'â€¦' : model.desc}</p>
+      <p style={{ fontSize: '0.78rem', color: 'var(--text2)', marginBottom: '0.6rem', lineHeight: 1.5, flex: 1 }}>{model.desc.length > 85 ? model.desc.slice(0, 85) + '...' : model.desc}</p>
       <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginBottom: '0.75rem' }}>
         {model.tags.slice(0, 3).map((tag) => <span key={tag} style={{ background: 'var(--bg2)', borderRadius: '2rem', padding: '0.12rem 0.5rem', fontSize: '0.68rem', color: 'var(--text2)' }}>{tag}</span>)}
       </div>
@@ -170,13 +170,13 @@ function ModelModal({ model, onClose, onUseInChat }: { model: Model; onClose: ()
           <div style={{ width: 52, height: 52, background: model.bg, borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', flexShrink: 0 }}>{model.icon}</div>
           <div style={{ flex: 1 }}>
             <div style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, fontSize: '1.1rem' }}>{model.name}</div>
-            <div style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>by {model.org} Â· {model.context}</div>
+            <div style={{ fontSize: '0.8rem', color: 'var(--text3)' }}>by {model.org} | {model.context}</div>
             <div style={{ display: 'flex', gap: 5, marginTop: 5, flexWrap: 'wrap' }}>
               {model.badge && <span className={model.badgeClass}>{model.badge}</span>}
               {model.tags.slice(0, 4).map((tag) => <span key={tag} style={{ background: 'var(--bg2)', borderRadius: '2rem', padding: '0.12rem 0.5rem', fontSize: '0.7rem', color: 'var(--text2)' }}>{tag}</span>)}
             </div>
           </div>
-          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--text3)', lineHeight: 1 }}>âœ•</button>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.2rem', cursor: 'pointer', color: 'var(--text3)', lineHeight: 1 }}>x</button>
         </div>
 
         <div style={{ display: 'flex', borderBottom: '1px solid var(--border)', padding: '0 1.5rem' }}>
@@ -190,7 +190,7 @@ function ModelModal({ model, onClose, onUseInChat }: { model: Model; onClose: ()
             <div>
               <p style={{ color: 'var(--text2)', lineHeight: 1.7, marginBottom: '1.5rem' }}>{model.desc}</p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
-                {[{ k: 'Rating', v: `â­ ${model.rating}` }, { k: 'Reviews', v: model.reviews.toLocaleString() }, { k: 'Context', v: model.context }, { k: 'Pricing', v: model.price }, { k: 'Provider', v: model.org }, { k: 'Types', v: model.types.join(', ') }].map((stat) => (
+                {[{ k: 'Rating', v: `${model.rating}/5` }, { k: 'Reviews', v: model.reviews.toLocaleString() }, { k: 'Context', v: model.context }, { k: 'Pricing', v: model.price }, { k: 'Provider', v: model.org }, { k: 'Types', v: model.types.join(', ') }].map((stat) => (
                   <div key={stat.k} style={{ textAlign: 'center', background: 'var(--bg)', borderRadius: 8, padding: '0.75rem', border: '1px solid var(--border)' }}>
                     <div style={{ fontWeight: 700, fontSize: '0.88rem' }}>{stat.v}</div>
                     <div style={{ fontSize: '0.65rem', color: 'var(--text3)', textTransform: 'uppercase' }}>{stat.k}</div>
@@ -218,7 +218,7 @@ function ModelModal({ model, onClose, onUseInChat }: { model: Model; onClose: ()
                 <div key={index} style={{ background: 'var(--bg)', borderRadius: 10, padding: '1rem', marginBottom: 10, border: '1px solid var(--border)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
                     <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{review.user}</span>
-                    <span style={{ fontSize: '0.82rem' }}>{'â­'.repeat(review.rating)}</span>
+                    <span style={{ fontSize: '0.82rem' }}>{review.rating}/5</span>
                   </div>
                   <p style={{ fontSize: '0.82rem', color: 'var(--text2)' }}>{review.text}</p>
                 </div>
@@ -237,7 +237,7 @@ function ModelModal({ model, onClose, onUseInChat }: { model: Model; onClose: ()
         </div>
 
         <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border)', display: 'flex', gap: 8 }}>
-          <button onClick={onUseInChat} style={{ flex: 1, background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.65rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.88rem' }}>Use in Chat Hub â†’</button>
+          <button onClick={onUseInChat} style={{ flex: 1, background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.65rem', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.88rem' }}>Use in Chat Hub -&gt;</button>
           <button onClick={onClose} style={{ background: 'var(--bg)', border: '1px solid var(--border2)', borderRadius: '2rem', padding: '0.65rem 1.25rem', cursor: 'pointer', fontFamily: 'inherit', fontSize: '0.88rem' }}>Close</button>
         </div>
       </div>

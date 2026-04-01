@@ -47,7 +47,7 @@ export default function HistoryPage() {
 
       {sessions.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '4rem', color: 'var(--text2)' }}>
-          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>ðŸ’¬</div>
+          <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>CH</div>
           <h3 style={{ fontFamily: "'Syne', sans-serif", fontWeight: 700, marginBottom: '0.5rem' }}>No conversations yet</h3>
           <p style={{ fontSize: '0.85rem', marginBottom: '1.5rem' }}>Start chatting to see your history here.</p>
           <button onClick={() => router.push('/chat')} style={{ background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.65rem 1.5rem', cursor: 'pointer', fontFamily: 'inherit' }}>Start Chatting</button>
@@ -59,7 +59,7 @@ export default function HistoryPage() {
             const lastMsg = session.messages[session.messages.length - 1];
             return (
               <div key={session._id} style={{ background: 'var(--white)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '1rem 1.25rem', display: 'flex', gap: 12, alignItems: 'center', boxShadow: 'var(--shadow)' }}>
-                <div style={{ width: 40, height: 40, background: model?.bg || 'var(--bg2)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>{model?.icon || 'ðŸ’¬'}</div>
+                <div style={{ width: 40, height: 40, background: model?.bg || 'var(--bg2)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', flexShrink: 0 }}>{model?.icon || 'CH'}</div>
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 600, fontSize: '0.88rem' }}>{model?.name || session.modelId}</div>
                   <div style={{ fontSize: '0.78rem', color: 'var(--text2)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>

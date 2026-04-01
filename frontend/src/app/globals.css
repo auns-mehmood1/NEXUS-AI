@@ -7,6 +7,7 @@
   --bg2: #EBEEf9;
   --bg3: #DDE2F4;
   --white: #FFFFFF;
+  --card: #FFFFFF;
   --text: #0F1033;
   --text2: #3D4270;
   --text3: #8B90B8;
@@ -16,6 +17,7 @@
   --accent-border: rgba(91,79,233,0.25);
   --blue: #2563EB;
   --blue-lt: #EFF6FF;
+  --blue-border: rgba(37,99,235,0.2);
   --teal: #0D9488;
   --teal-lt: #F0FDFA;
   --amber: #B45309;
@@ -25,9 +27,13 @@
   --green: #16A34A;
   --border: rgba(91,79,233,0.10);
   --border2: rgba(91,79,233,0.18);
+  --radius-sm: 8px;
   --radius: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --shadow: 0 1px 4px rgba(91,79,233,0.06), 0 4px 16px rgba(91,79,233,0.04);
   --shadow-md: 0 2px 12px rgba(91,79,233,0.09), 0 8px 32px rgba(91,79,233,0.05);
+  --shadow-lg: 0 8px 40px rgba(91,79,233,0.13);
 }
 
 html { scroll-behavior: smooth; height: 100%; }
@@ -40,6 +46,8 @@ body {
   min-height: 100%;
   -webkit-font-smoothing: antialiased;
 }
+
+button, input, textarea, select { font: inherit; }
 
 a { color: inherit; text-decoration: none; }
 

@@ -162,7 +162,7 @@ function ChatPageInner() {
         ...prev,
         {
           role: 'assistant',
-          content: 'â± Your guest session has expired (3 hours limit). Please sign up to continue chatting.',
+          content: 'Guest session expired (3 hours limit). Please sign up to continue chatting.',
           timestamp: Date.now(),
         },
       ]);
@@ -387,10 +387,10 @@ function ChatPageInner() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
         {!user && guestSession && (
           <div style={{ background: 'linear-gradient(90deg, var(--accent-lt), rgba(91,79,233,0.04))', borderBottom: '1px solid var(--accent-border)', padding: '0.5rem 1.25rem', display: 'flex', alignItems: 'center', gap: 10, fontSize: '0.8rem', color: 'var(--accent)' }}>
-            <span>â± Guest session â€” {remainingTime} remaining</span>
+            <span>Guest session - {remainingTime} remaining</span>
             <Link href="/auth/signup" style={{ marginLeft: 'auto' }}>
               <button style={{ background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.2rem 0.75rem', fontSize: '0.75rem', cursor: 'pointer', fontFamily: 'inherit' }}>
-                Save permanently â†’
+                Save permanently -&gt;
               </button>
             </Link>
           </div>
@@ -418,7 +418,7 @@ function ChatPageInner() {
                 </div>
                 {message.attachments?.map((attachment, attachmentIndex) => (
                   <div key={attachmentIndex} style={{ marginTop: 6 }}>
-                    {attachment.type === 'image' ? <img src={attachment.url} alt={attachment.name} style={{ maxWidth: 200, borderRadius: 8, border: '1px solid var(--border)' }} /> : <span style={{ fontSize: '0.75rem', color: 'var(--text2)', background: 'var(--bg2)', padding: '0.2rem 0.5rem', borderRadius: 4 }}>ðŸ“Ž {attachment.name}</span>}
+                    {attachment.type === 'image' ? <img src={attachment.url} alt={attachment.name} style={{ maxWidth: 200, borderRadius: 8, border: '1px solid var(--border)' }} /> : <span style={{ fontSize: '0.75rem', color: 'var(--text2)', background: 'var(--bg2)', padding: '0.2rem 0.5rem', borderRadius: 4 }}>File: {attachment.name}</span>}
                   </div>
                 ))}
                 <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: 4, textAlign: message.role === 'user' ? 'right' : 'left' }}>
@@ -463,7 +463,7 @@ function ChatPageInner() {
             <div style={{ background: 'white', borderRadius: 16, padding: '1.5rem', maxWidth: 400, width: '90%' }}>
               <video ref={videoRef} autoPlay style={{ width: '100%', borderRadius: 8, marginBottom: '1rem' }} />
               <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={capturePhoto} style={{ flex: 1, background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.6rem', cursor: 'pointer', fontFamily: 'inherit' }}>ðŸ“¸ Capture</button>
+                <button onClick={capturePhoto} style={{ flex: 1, background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.6rem', cursor: 'pointer', fontFamily: 'inherit' }}>Capture</button>
                 <button onClick={() => setCameraOpen(false)} style={{ flex: 1, background: 'none', border: '1px solid var(--border2)', borderRadius: '2rem', padding: '0.6rem', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
               </div>
             </div>
@@ -475,8 +475,8 @@ function ChatPageInner() {
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
               {attachments.map((attachment, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--bg2)', borderRadius: 6, padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}>
-                  {attachment.type === 'image' ? 'ðŸ–¼' : 'ðŸ“Ž'} {attachment.name}
-                  <button onClick={() => setAttachments((prev) => prev.filter((_, attachmentIndex) => attachmentIndex !== index))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text3)', fontSize: '0.7rem' }}>âœ•</button>
+                  {attachment.type === 'image' ? 'Image:' : 'File:'} {attachment.name}
+                  <button onClick={() => setAttachments((prev) => prev.filter((_, attachmentIndex) => attachmentIndex !== index))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text3)', fontSize: '0.7rem' }}>x</button>
                 </div>
               ))}
             </div>
@@ -494,19 +494,19 @@ function ChatPageInner() {
             <div style={{ display: 'flex', gap: 4, alignItems: 'center', flexShrink: 0 }}>
               <span style={{ fontSize: '0.7rem', color: 'var(--text3)', background: 'var(--bg3)', borderRadius: 6, padding: '0.2rem 0.5rem', whiteSpace: 'nowrap' }}>{activeModel.name}</span>
               <button onClick={() => setCpanelOpen((open) => !open)} title="Prompt suggestions" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: cpanelOpen ? 'var(--accent-lt)' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: cpanelOpen ? 'var(--accent)' : 'var(--text3)' }}>
-                âœ¦
+                AI
               </button>
               <button onClick={startVoiceInput} title="Voice input" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: isListening ? 'rgba(220,38,38,0.07)' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isListening ? '#dc2626' : 'var(--text3)', animation: isListening ? 'micPulse 0.9s ease-in-out infinite' : 'none' }}>
-                ðŸŽ™
+                Mic
               </button>
               <button onClick={speakLastMessage} title="Read aloud" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isSpeaking ? 'var(--accent)' : 'var(--text3)' }}>
-                ðŸ”Š
+                Audio
               </button>
               <button onClick={openCamera} title="Camera" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
-                ðŸ“·
+                Cam
               </button>
               <button onClick={() => fileRef.current?.click()} title="Attach file" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
-                ðŸ“Ž
+                File
               </button>
               <input ref={fileRef} type="file" multiple style={{ display: 'none' }} onChange={handleFileUpload} />
               <button
@@ -514,7 +514,7 @@ function ChatPageInner() {
                 disabled={!input.trim() && attachments.length === 0}
                 style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: input.trim() || attachments.length > 0 ? 'var(--accent)' : 'var(--border2)', color: 'white', cursor: input.trim() || attachments.length > 0 ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}
               >
-                â†‘
+                Go
               </button>
             </div>
           </div>
@@ -541,7 +541,7 @@ function ChatPageInner() {
               <div style={{ fontSize: '0.62rem', color: 'var(--text3)', textTransform: 'uppercase' }}>Context</div>
             </div>
             <div style={{ background: 'var(--bg)', borderRadius: 8, padding: '0.5rem', textAlign: 'center' }}>
-              <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>â­ {activeModel.rating}</div>
+              <div style={{ fontSize: '0.8rem', fontWeight: 700 }}>Rating {activeModel.rating}</div>
               <div style={{ fontSize: '0.62rem', color: 'var(--text3)', textTransform: 'uppercase' }}>Rating</div>
             </div>
             <div style={{ background: 'var(--bg)', borderRadius: 8, padding: '0.5rem', textAlign: 'center' }}>

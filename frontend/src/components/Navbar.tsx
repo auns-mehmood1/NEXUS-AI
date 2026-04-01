@@ -51,7 +51,7 @@ export default function Navbar() {
     <nav style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '0.875rem 2.5rem',
-      background: 'rgba(244,242,238,0.92)',
+      background: 'rgba(245,247,255,0.92)',
       backdropFilter: 'blur(14px)',
       borderBottom: '1px solid var(--border)',
       position: 'sticky', top: 0, zIndex: 200,

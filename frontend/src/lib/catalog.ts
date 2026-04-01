@@ -28,11 +28,6 @@ export interface LanguageOption {
   label: string;
 }
 
-export interface HomeStat {
-  value: string;
-  label: string;
-}
-
 export interface ChatPanelTab {
   key: string;
   label: string;
@@ -66,10 +61,117 @@ export interface BillingPlan {
   cta: string;
 }
 
+export interface HomePageStat {
+  value: string;
+  label: string;
+}
+
+export interface HomePageHero {
+  eyebrow: string;
+  title: string;
+  accent: string;
+  subtitle: string;
+  description: string;
+  placeholder: string;
+  cta: string;
+}
+
+export interface HomePageAction {
+  icon: string;
+  label: string;
+  prompt: string;
+}
+
+export interface HomePageFeatureCard {
+  icon: string;
+  title: string;
+  description: string;
+  href: string;
+}
+
+export interface HomePageLabCard {
+  icon: string;
+  name: string;
+  summary: string;
+  href: string;
+}
+
+export interface HomePageComparisonRow {
+  model: string;
+  lab: string;
+  context: string;
+  inputPrice: string;
+  outputPrice: string;
+  multimodal: boolean;
+  speed: string;
+  speedTone: 'accent' | 'amber' | 'blue' | 'rose' | 'teal';
+  bestFor: string;
+}
+
+export interface HomePageTrendingCard {
+  badge: string;
+  badgeTone: 'accent' | 'amber' | 'blue' | 'rose' | 'teal';
+  lab: string;
+  title: string;
+  description: string;
+  prompt: string;
+}
+
+export interface HomePageBudgetBucket {
+  icon: string;
+  tone: 'accent' | 'amber' | 'blue' | 'rose' | 'teal';
+  title: string;
+  description: string;
+  cta: string;
+  href: string;
+}
+
+export interface HomePageUseCase {
+  icon: string;
+  title: string;
+  models: string;
+  cta: string;
+  prompt: string;
+}
+
+export interface HomePageNewsletter {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  placeholder: string;
+  buttonLabel: string;
+  finePrint: string;
+}
+
+export interface HomePageFooterLink {
+  label: string;
+  href: string;
+}
+
+export interface HomePageFooter {
+  brand: string;
+  links: HomePageFooterLink[];
+}
+
+export interface HomePageContent {
+  stats: HomePageStat[];
+  hero: HomePageHero;
+  featuredModelIds: string[];
+  heroActions: HomePageAction[];
+  builderFeatures: HomePageFeatureCard[];
+  labs: HomePageLabCard[];
+  comparisonRows: HomePageComparisonRow[];
+  trending: HomePageTrendingCard[];
+  budgetBuckets: HomePageBudgetBucket[];
+  useCases: HomePageUseCase[];
+  newsletter: HomePageNewsletter;
+  footer: HomePageFooter;
+}
+
 export interface PublicContent {
   languages: LanguageOption[];
-  homeStats: HomeStat[];
-  homeHeroModelIds: string[];
+  homePage: HomePageContent;
   chatPanel: {
     tabs: ChatPanelTab[];
     prompts: Record<string, string[]>;

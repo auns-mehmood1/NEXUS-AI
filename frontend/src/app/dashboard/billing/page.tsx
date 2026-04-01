@@ -49,7 +49,7 @@ export default function BillingPage() {
             <ul style={{ listStyle: 'none', marginBottom: '1.5rem' }}>
               {plan.features.map((feature) => (
                 <li key={feature} style={{ fontSize: '0.82rem', color: 'var(--text2)', padding: '0.3rem 0', display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <span style={{ color: 'var(--green)' }}>âœ“</span>{feature}
+                  <span style={{ color: 'var(--green)' }}>+</span>{feature}
                 </li>
               ))}
             </ul>
