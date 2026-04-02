@@ -5,6 +5,8 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 export const api = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
+  maxBodyLength: 50 * 1024 * 1024,  // 50 MB
+  maxContentLength: 50 * 1024 * 1024,
 });
 
 // Attach JWT token on every request

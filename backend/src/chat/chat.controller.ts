@@ -2,6 +2,7 @@ import { Controller, Post, Get, Delete, Body, Param, UseGuards, Request } from '
 import { ChatService } from './chat.service';
 import { SendMessageDto, CreateSessionDto } from './dto/send-message.dto';
 import { JwtAuthGuard } from '../common/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '../common/guards/optional-jwt-auth.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { IsString } from 'class-validator';
 
@@ -11,15 +12,17 @@ class MigrateDto { @IsString() guestId: string; }
 export class ChatController {
   constructor(private chatService: ChatService) {}
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Post('session')
   createSession(@Body() dto: CreateSessionDto, @Request() req: any) {
-    const userId = req.user?._id;
+    const userId = req.user?._id?.toString();
     return this.chatService.createSession(dto, userId);
   }
 
+  @UseGuards(OptionalJwtAuthGuard)
   @Post('send')
   sendMessage(@Body() dto: SendMessageDto, @Request() req: any) {
-    const userId = req.user?._id;
+    const userId = req.user?._id?.toString();
     return this.chatService.sendMessage(dto, userId);
   }
 

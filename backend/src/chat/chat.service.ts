@@ -57,8 +57,10 @@ export class ChatService {
       throw new ForbiddenException('Guest session expired');
     }
 
-    // Add user message
-    const userMsg = { role: 'user', content: dto.content, timestamp: new Date(), attachments: dto.attachments || [] };
+    // Add user message — fall back to a descriptor when content is empty (e.g. voice-only messages)
+    const messageContent = dto.content?.trim() ||
+      (dto.attachments?.length ? '[User sent an attachment]' : '');
+    const userMsg = { role: 'user', content: messageContent, timestamp: new Date(), attachments: dto.attachments || [] };
     session.messages.push(userMsg as any);
 
     // Get AI response

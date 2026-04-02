@@ -59,7 +59,24 @@ export function loadGuestSession(): GuestSession | null {
 
 export function saveGuestSession(session: GuestSession) {
   if (typeof window === 'undefined') return;
-  localStorage.setItem(GUEST_HISTORY_KEY, JSON.stringify(session));
+  // Strip base64 attachment data before persisting — only keep metadata.
+  // Large data URIs (images, audio, video, PDFs) quickly exceed the localStorage quota.
+  const stripped: GuestSession = {
+    ...session,
+    messages: session.messages.map((msg) => ({
+      ...msg,
+      attachments: msg.attachments?.map(({ type, name }) => ({
+        type,
+        name,
+        url: '', // data URL is not persisted
+      })),
+    })),
+  };
+  try {
+    localStorage.setItem(GUEST_HISTORY_KEY, JSON.stringify(stripped));
+  } catch {
+    // If still over quota (e.g. huge message history), silently skip persistence
+  }
 }
 
 export function isExpired(session: GuestSession): boolean {

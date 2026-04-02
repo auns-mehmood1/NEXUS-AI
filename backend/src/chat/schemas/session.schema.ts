@@ -13,7 +13,7 @@ export class Attachment {
 @Schema({ _id: false })
 export class Message {
   @Prop({ enum: ['user', 'assistant'], required: true }) role: string;
-  @Prop({ required: true }) content: string;
+  @Prop({ required: true, default: '' }) content: string;
   @Prop({ default: () => new Date() }) timestamp: Date;
   @Prop({ type: [Attachment], default: [] }) attachments: Attachment[];
 }

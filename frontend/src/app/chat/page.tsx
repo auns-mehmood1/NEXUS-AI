@@ -35,6 +35,7 @@ function ChatPageInner() {
 
   const initModelId = sp.get('model') || DEFAULT_MODEL_ID;
   const initQuery = sp.get('q') || '';
+  const initSessionId = sp.get('session') || null;
 
   const [activeModelId, setActiveModelId] = useState(initModelId);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -48,12 +49,26 @@ function ChatPageInner() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [cameraOpen, setCameraOpen] = useState(false);
   const [attachments, setAttachments] = useState<{ type: string; url: string; name: string }[]>([]);
+  const [isRecording, setIsRecording] = useState(false);
+  const [recordingSeconds, setRecordingSeconds] = useState(0);
+  const [userSessionId, setUserSessionId] = useState<string | null>(initSessionId);
+  const [videoRecordOpen, setVideoRecordOpen] = useState(false);
+  const [isVideoRecording, setIsVideoRecording] = useState(false);
+  const [videoRecordSeconds, setVideoRecordSeconds] = useState(0);
 
   const chatEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const recognitionRef = useRef<any>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const recordingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const videoRecordRef = useRef<HTMLVideoElement>(null);
+  const videoRecorderRef = useRef<MediaRecorder | null>(null);
+  const videoChunksRef = useRef<Blob[]>([]);
+  const videoRecordTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const videoStreamRef = useRef<MediaStream | null>(null);
 
   const activeModel = useMemo(() => {
     if (models.length === 0) return null;
@@ -132,6 +147,12 @@ function ChatPageInner() {
       setGuestSession(syncedSession);
       if (syncedSession.messages.length > 0) setMessages(syncedSession.messages);
     }
+    // Reset backend session when model changes so a fresh session is created
+    // (skip on first mount if we're restoring a session from URL)
+    if (user && activeModelId !== initModelId) {
+      setUserSessionId(null);
+      setMessages([]);
+    }
   }, [activeModel, user]);
 
   useEffect(() => {
@@ -146,6 +167,25 @@ function ChatPageInner() {
     return undefined;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeModel, initQuery, messages.length]);
+
+  // When continuing a session from history, restore its messages
+  useEffect(() => {
+    if (!initSessionId || !user) return;
+    chatApi.history().then(({ data }) => {
+      const session = (data as any[]).find((s: any) => s._id === initSessionId);
+      if (session?.messages?.length) {
+        setMessages(
+          session.messages.map((m: any) => ({
+            role: m.role,
+            content: m.content,
+            timestamp: new Date(m.timestamp).getTime(),
+            attachments: m.attachments,
+          })),
+        );
+      }
+    }).catch(() => {/* silently ignore */});
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initSessionId, user]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -192,15 +232,23 @@ function ChatPageInner() {
     }
 
     try {
+      // For logged-in users pass the persisted sessionId; for guests pass the guest sessionId
+      const resolvedSessionId = user
+        ? (userSessionId ?? undefined)
+        : (isPersistedSessionId(nextGuestSession?.sessionId) ? nextGuestSession?.sessionId : undefined);
+
       const { data } = await chatApi.send({
-        sessionId: isPersistedSessionId(nextGuestSession?.sessionId)
-          ? nextGuestSession?.sessionId
-          : undefined,
-        guestId: nextGuestSession?.guestId,
+        sessionId: resolvedSessionId,
+        guestId: user ? undefined : nextGuestSession?.guestId,
         modelId: activeModel.id,
         content: contentToSend,
         attachments: userMsg.attachments,
       });
+
+      // Persist the session ID returned by the backend so all messages go into the same session
+      if (user && data.sessionId) {
+        setUserSessionId(data.sessionId);
+      }
 
       const aiMsg: Message = {
         role: 'assistant',
@@ -331,6 +379,81 @@ function ChatPageInner() {
     });
   }
 
+  async function toggleVoiceRecording() {
+    if (isRecording) {
+      mediaRecorderRef.current?.stop();
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      audioChunksRef.current = [];
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) audioChunksRef.current.push(e.data);
+      };
+      recorder.onstop = () => {
+        stream.getTracks().forEach((t) => t.stop());
+        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+        const url = URL.createObjectURL(blob);
+        setAttachments((prev) => [...prev, { type: 'voice', url, name: `Voice message (${recordingTimerRef.current ? recordingSeconds : 0}s)` }]);
+        setIsRecording(false);
+        setRecordingSeconds(0);
+        if (recordingTimerRef.current) { clearInterval(recordingTimerRef.current); recordingTimerRef.current = null; }
+      };
+      recorder.start();
+      mediaRecorderRef.current = recorder;
+      setIsRecording(true);
+      setRecordingSeconds(0);
+      recordingTimerRef.current = setInterval(() => setRecordingSeconds((s) => s + 1), 1000);
+    } catch {
+      alert('Microphone access denied.');
+    }
+  }
+
+  async function openVideoRecorder() {
+    setVideoRecordOpen(true);
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+      videoStreamRef.current = stream;
+      if (videoRecordRef.current) videoRecordRef.current.srcObject = stream;
+    } catch {
+      setVideoRecordOpen(false);
+      alert('Camera/microphone access denied.');
+    }
+  }
+
+  function startVideoRecording() {
+    if (!videoStreamRef.current) return;
+    const recorder = new MediaRecorder(videoStreamRef.current);
+    videoChunksRef.current = [];
+    recorder.ondataavailable = (e) => { if (e.data.size > 0) videoChunksRef.current.push(e.data); };
+    recorder.onstop = () => {
+      const blob = new Blob(videoChunksRef.current, { type: 'video/webm' });
+      const url = URL.createObjectURL(blob);
+      const secs = videoRecordSeconds;
+      setAttachments((prev) => [...prev, { type: 'video', url, name: `Video message (${secs}s)` }]);
+      closeVideoRecorder();
+    };
+    recorder.start();
+    videoRecorderRef.current = recorder;
+    setIsVideoRecording(true);
+    setVideoRecordSeconds(0);
+    videoRecordTimerRef.current = setInterval(() => setVideoRecordSeconds((s) => s + 1), 1000);
+  }
+
+  function stopVideoRecording() {
+    videoRecorderRef.current?.stop();
+  }
+
+  function closeVideoRecorder() {
+    videoStreamRef.current?.getTracks().forEach((t) => t.stop());
+    videoStreamRef.current = null;
+    if (videoRecordTimerRef.current) { clearInterval(videoRecordTimerRef.current); videoRecordTimerRef.current = null; }
+    setIsVideoRecording(false);
+    setVideoRecordSeconds(0);
+    setVideoRecordOpen(false);
+  }
+
   const remainingTime = guestSession ? getRemainingTime(guestSession) : null;
 
   if (modelsLoading || contentLoading || !activeModel) {
@@ -418,7 +541,20 @@ function ChatPageInner() {
                 </div>
                 {message.attachments?.map((attachment, attachmentIndex) => (
                   <div key={attachmentIndex} style={{ marginTop: 6 }}>
-                    {attachment.type === 'image' ? <img src={attachment.url} alt={attachment.name} style={{ maxWidth: 200, borderRadius: 8, border: '1px solid var(--border)' }} /> : <span style={{ fontSize: '0.75rem', color: 'var(--text2)', background: 'var(--bg2)', padding: '0.2rem 0.5rem', borderRadius: 4 }}>File: {attachment.name}</span>}
+                    {attachment.type === 'image' ? (
+                      <img src={attachment.url} alt={attachment.name} style={{ maxWidth: 200, borderRadius: 8, border: '1px solid var(--border)' }} />
+                    ) : attachment.type === 'voice' ? (
+                      <div style={{ background: message.role === 'user' ? 'rgba(255,255,255,0.15)' : 'var(--bg2)', borderRadius: 12, padding: '0.5rem 0.75rem', display: 'flex', alignItems: 'center', gap: 8, marginTop: 4 }}>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, color: message.role === 'user' ? 'rgba(255,255,255,0.9)' : 'var(--accent)' }}><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        <audio src={attachment.url} controls style={{ height: 28, maxWidth: 180 }} />
+                      </div>
+                    ) : attachment.type === 'video' ? (
+                      <div style={{ marginTop: 4 }}>
+                        <video src={attachment.url} controls style={{ maxWidth: 260, width: '100%', borderRadius: 10, border: '1px solid var(--border)', display: 'block' }} />
+                      </div>
+                    ) : (
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text2)', background: 'var(--bg2)', padding: '0.2rem 0.5rem', borderRadius: 4 }}>File: {attachment.name}</span>
+                    )}
                   </div>
                 ))}
                 <div style={{ fontSize: '0.68rem', color: 'var(--text3)', marginTop: 4, textAlign: message.role === 'user' ? 'right' : 'left' }}>
@@ -470,12 +606,41 @@ function ChatPageInner() {
           </div>
         )}
 
+        {videoRecordOpen && (
+          <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.75)', zIndex: 500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ background: 'white', borderRadius: 16, padding: '1.5rem', maxWidth: 440, width: '90%' }}>
+              <div style={{ position: 'relative', marginBottom: '1rem' }}>
+                <video ref={videoRecordRef} autoPlay muted style={{ width: '100%', borderRadius: 10, display: 'block', background: '#000' }} />
+                {isVideoRecording && (
+                  <div style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(220,38,38,0.92)', color: 'white', borderRadius: 20, padding: '0.25rem 0.7rem', fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ width: 7, height: 7, background: 'white', borderRadius: '50%', display: 'inline-block', animation: 'micPulse 1s ease-in-out infinite' }} />
+                    REC {videoRecordSeconds}s
+                  </div>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {!isVideoRecording ? (
+                  <button onClick={startVideoRecording} style={{ flex: 1, background: '#dc2626', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.65rem', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7 }}>
+                    <span style={{ width: 9, height: 9, background: 'white', borderRadius: '50%', display: 'inline-block' }} />
+                    Start Recording
+                  </button>
+                ) : (
+                  <button onClick={stopVideoRecording} style={{ flex: 1, background: 'var(--accent)', color: 'white', border: 'none', borderRadius: '2rem', padding: '0.65rem', cursor: 'pointer', fontFamily: 'inherit', fontWeight: 600 }}>
+                    Stop &amp; Attach
+                  </button>
+                )}
+                <button onClick={closeVideoRecorder} style={{ flex: 1, background: 'none', border: '1px solid var(--border2)', borderRadius: '2rem', padding: '0.65rem', cursor: 'pointer', fontFamily: 'inherit' }}>Cancel</button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div style={{ padding: '0.75rem 1rem', borderTop: '1px solid var(--border)', background: 'var(--white)' }}>
           {attachments.length > 0 && (
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
               {attachments.map((attachment, index) => (
                 <div key={index} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--bg2)', borderRadius: 6, padding: '0.2rem 0.5rem', fontSize: '0.75rem' }}>
-                  {attachment.type === 'image' ? 'Image:' : 'File:'} {attachment.name}
+                  {attachment.type === 'image' ? '🖼 Image:' : attachment.type === 'voice' ? '🎙 ' : attachment.type === 'video' ? '🎥 ' : '📎 File:'} {attachment.name}
                   <button onClick={() => setAttachments((prev) => prev.filter((_, attachmentIndex) => attachmentIndex !== index))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text3)', fontSize: '0.7rem' }}>x</button>
                 </div>
               ))}
@@ -494,25 +659,39 @@ function ChatPageInner() {
             <div style={{ display: 'flex', gap: 4, alignItems: 'center', flexShrink: 0 }}>
               <span style={{ fontSize: '0.7rem', color: 'var(--text3)', background: 'var(--bg3)', borderRadius: 6, padding: '0.2rem 0.5rem', whiteSpace: 'nowrap' }}>{activeModel.name}</span>
               <button onClick={() => setCpanelOpen((open) => !open)} title="Prompt suggestions" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: cpanelOpen ? 'var(--accent-lt)' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: cpanelOpen ? 'var(--accent)' : 'var(--text3)' }}>
-                AI
+                {/* Sparkles / AI icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
               </button>
               <button onClick={startVoiceInput} title="Voice input" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: isListening ? 'rgba(220,38,38,0.07)' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isListening ? '#dc2626' : 'var(--text3)', animation: isListening ? 'micPulse 0.9s ease-in-out infinite' : 'none' }}>
-                Mic
+                {/* Microphone icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
               </button>
               <button onClick={speakLastMessage} title="Read aloud" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isSpeaking ? 'var(--accent)' : 'var(--text3)' }}>
-                Audio
+                {/* Speaker / audio icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
               </button>
-              <button onClick={openCamera} title="Camera" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
-                Cam
+              <button onClick={() => void toggleVoiceRecording()} title={isRecording ? `Stop recording (${recordingSeconds}s)` : 'Record voice message'} style={{ width: isRecording ? 'auto' : 28, height: 28, borderRadius: isRecording ? 14 : 6, border: 'none', background: isRecording ? 'rgba(220,38,38,0.1)' : 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4, color: isRecording ? '#dc2626' : 'var(--text3)', padding: isRecording ? '0 8px' : undefined, transition: 'all 0.2s' }}>
+                {/* Waveform / voice record icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ animation: isRecording ? 'micPulse 0.9s ease-in-out infinite' : 'none' }}><line x1="4" y1="12" x2="4" y2="12"/><line x1="7" y1="8" x2="7" y2="16"/><line x1="10" y1="5" x2="10" y2="19"/><line x1="13" y1="8" x2="13" y2="16"/><line x1="16" y1="11" x2="16" y2="13"/><line x1="19" y1="9" x2="19" y2="15"/><line x1="22" y1="12" x2="22" y2="12"/></svg>
+                {isRecording && <span style={{ fontSize: '0.7rem', fontWeight: 600 }}>{recordingSeconds}s</span>}
+              </button>
+              <button onClick={openCamera} title="Camera photo" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
+                {/* Camera icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+              </button>
+              <button onClick={() => void openVideoRecorder()} title="Record video message" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
+                {/* Video camera icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
               </button>
               <button onClick={() => fileRef.current?.click()} title="Attach file" style={{ width: 28, height: 28, borderRadius: 6, border: 'none', background: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
-                File
+                {/* Paperclip icon */}
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
               </button>
               <input ref={fileRef} type="file" multiple style={{ display: 'none' }} onChange={handleFileUpload} />
               <button
-                onClick={() => void sendMessage()}
-                disabled={!input.trim() && attachments.length === 0}
-                style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: input.trim() || attachments.length > 0 ? 'var(--accent)' : 'var(--border2)', color: 'white', cursor: input.trim() || attachments.length > 0 ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}
+                onClick={() => { if (isRecording) { mediaRecorderRef.current?.stop(); setTimeout(() => void sendMessage(), 300); } else { void sendMessage(); } }}
+                disabled={!input.trim() && attachments.length === 0 && !isRecording}
+                style={{ width: 34, height: 34, borderRadius: '50%', border: 'none', background: input.trim() || attachments.length > 0 || isRecording ? 'var(--accent)' : 'var(--border2)', color: 'white', cursor: input.trim() || attachments.length > 0 || isRecording ? 'pointer' : 'default', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.85rem' }}
               >
                 Go
               </button>
