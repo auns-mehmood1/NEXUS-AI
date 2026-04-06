@@ -1,0 +1,104 @@
+Test ID,Test Title,Scenario Type,Layer,Preconditions,Test Steps,Test Data,Expected Result,Actual Result,Test Status,Execution Status,Notes,Executed On
+TC-001,Verify page loads with navigation bar,Positive,Frontend,Navigate to /chat,"1. Open browser
+2. Navigate to http://localhost:3000/chat",URL: http://localhost:3000/chat,"Navigation bar displays with NexusAI logo, 4 navigation links (Chat Hub active), Language selector, Sign In, Get Started buttons","Navbar rendered NexusAI logo, 4 navigation links, language selector, Sign In, and Get Started.",Pass,Pass,,2026-04-06T05:12:40.207Z
+TC-002,Verify left sidebar displays model list,Positive,Frontend,Page fully loaded,"1. Wait for page to load
+2. Check left sidebar content",N/A,"Left sidebar shows search input ""Search 400+ models..."" and scrollable list of AI models with icons, names, and lab badges",Left sidebar rendered the model search box and a scrollable list of model buttons.,Pass,Pass,,2026-04-06T05:12:41.711Z
+TC-003,Verify model search filters results,Positive,Frontend,Models loaded in sidebar,"1. Type claude in model search
+2. Verify filtered results",Search query: claude,"Only models containing ""claude"" in name or lab are displayed in the model list",Model search filtered the sidebar to 3 Claude/Anthropic entries.,Pass,Pass,,2026-04-06T05:12:43.274Z
+TC-004,Verify model selection updates active model,Positive,Frontend,Models visible in sidebar,"1. Click on a different model in the list
+2. Check right sidebar updates",Model: Any model different from current,"Right sidebar updates to show selected model details, chat context changes to new model",Selecting GPT-5 Turbo updated the right sidebar and composer context.,Pass,Pass,,2026-04-06T05:12:45.040Z
+TC-005,Verify guest session banner displays for non-logged users,Positive,Frontend,User not logged in,"1. Access /chat without authentication
+2. Check for guest session banner",N/A,"Guest session banner appears showing ""Guest session - X remaining"" with ""Save permanently ->"" button linking to /auth/signup",Guest banner showed remaining time and linked Save permanently CTA.,Pass,Pass,,2026-04-06T05:12:46.408Z
+TC-006,Verify welcome state displays when no messages,Positive,Frontend,Fresh chat session with no messages,"1. Check chat area when no messages exist
+2. Verify welcome content",N/A,"Center area displays model icon, ""Chat with [Model Name]"" heading, and model description","Empty-state welcome content rendered the active model icon, title, and description.",Pass,Pass,,2026-04-06T05:12:47.743Z
+TC-007,Verify text message sending,Positive,Integration,Active model selected,"1. Type message Hello
+2. Click Send button or press Enter",Message: Hello, how are you?,"Guest message sent, typing indicator appeared, and mocked assistant reply rendered.",Pass,Pass,,2026-04-06T05:12:50.670Z
+TC-008,Verify Enter key sends message without Shift,Positive,Frontend,Text entered in input,"1. Type message
+2. Press Enter (without Shift)",Message: Test message,Message sends immediately without line break,Pressing Enter sent the message without inserting a line break.,Pass,Pass,,2026-04-06T05:12:52.739Z
+TC-009,Verify Shift+Enter creates line break,Positive,Frontend,Text entered in input,"1. Type first line
+2. Press Shift+Enter
+3. Type second line",Message: Line 1\nLine 2,Cursor moves to new line without sending message,Shift+Enter inserted a newline and kept the composer unsent.,Pass,Pass,,2026-04-06T05:12:55.643Z
+TC-010,Verify prompt suggestions panel displays,Positive,Frontend,Chat panel loaded,"1. Check if prompt suggestions panel appears
+2. Verify tabs and suggestions",N/A,"Panel displays with tabs (use_cases, etc.) and clickable prompt suggestions",Prompt suggestions panel rendered tabs and clickable prompts.,Pass,Pass,,2026-04-06T05:12:57.273Z
+TC-011,Verify clicking prompt suggestion sends message,Positive,Integration,Prompt suggestions visible,"1. Click on a prompt suggestion button
+2. Verify message sends",Prompt: Any suggestion from panel,Selected prompt appears in input and sends automatically,Clicking a prompt suggestion auto-sent it and rendered an assistant reply.,Pass,Pass,,2026-04-06T05:12:59.003Z
+TC-012,Verify voice input activation,Positive,Frontend,Browser supports Speech Recognition API,"1. Click microphone icon
+2. Grant microphone permission
+3. Speak text",Voice input: Test voice input,"Microphone icon shows recording state, spoken text appears in input field","Voice input populated transcript text and activated microphone styling (rgb(220, 38, 38)).",Pass,Pass,,2026-04-06T05:13:00.902Z
+TC-013,Verify voice input stops on second click,Positive,Frontend,Voice input active,"1. While recording
+2. Verify recording stops",N/A,"Recording stops, text remains in input field",Second microphone click stopped recognition and preserved the transcribed text.,Pass,Pass,,2026-04-06T05:13:03.076Z
+TC-014,Verify text-to-speech for last message,Positive,Frontend,At least one assistant message exists,"1. Click speaker icon
+2. Verify audio plays",N/A,Last assistant message is read aloud using browser SpeechSynthesis API,Read aloud triggered SpeechSynthesis for the last assistant message.,Pass,Pass,,2026-04-06T05:13:05.340Z
+TC-015,Verify camera modal opens,Positive,Frontend,Browser supports getUserMedia API,"1. Click camera icon
+2. Grant camera permission
+3. Verify modal displays",N/A,Camera modal opens showing live video feed with Capture and Cancel buttons,Camera modal opened with Capture and Cancel actions.,Pass,Pass,,2026-04-06T05:13:07.101Z
+TC-016,Verify camera photo capture,Positive,Integration,Camera modal open,"1. Click Capture button
+2. Verify photo attaches",N/A,"Photo captures, attaches to message as image attachment, camera modal closes",Camera capture attached an image chip and closed the modal.,Pass,Pass,,2026-04-06T05:13:09.214Z
+TC-017,Verify camera modal cancel,Positive,Frontend,Camera modal open,"1. Click Cancel button
+2. Verify modal closes",N/A,Camera modal closes without attaching photo,Camera modal closed without attaching a photo.,Pass,Pass,,2026-04-06T05:13:11.233Z
+TC-018,Verify voice recording activates,Positive,Frontend,Browser supports MediaRecorder API,"1. Click voice recording button
+2. Grant microphone permission
+3. Speak for few seconds",N/A,"Recording button shows red state with timer counting, audio records",Voice recording entered active state and started its timer.,Pass,Pass,,2026-04-06T05:13:13.960Z
+TC-019,Verify voice recording attaches on stop,Positive,Integration,Voice recording active,"1. Click voice recording button to stop
+2. Verify audio attaches",N/A,"Recording stops, audio file attaches to message with duration label",Stopping voice recording attached an audio chip with a duration label.,Pass,Pass,,2026-04-06T05:13:16.250Z
+TC-020,Verify video recorder modal opens,Positive,Frontend,Browser supports getUserMedia API,"1. Click video camera icon
+2. Grant camera and microphone permissions
+3. Verify modal displays",N/A,Video recorder modal opens with live feed and Start Recording/Cancel buttons,Video recorder modal opened with live recorder controls.,Pass,Pass,,2026-04-06T05:13:17.998Z
+TC-021,Verify video recording starts,Positive,Frontend,Video recorder modal open,"1. Click Start Recording button
+2. Verify recording state",N/A,"Button changes to ""Stop & Attach"", red REC indicator with timer appears",Video recorder entered recording state and showed REC timer.,Pass,Pass,,2026-04-06T05:13:21.072Z
+TC-022,Verify video recording attaches on stop,Positive,Integration,Video recording active,"1. Click Stop & Attach button
+2. Verify video attaches",N/A,"Recording stops, video file attaches to message with duration label",Stopping video recording attached a video chip with a duration label.,Pass,Pass,,2026-04-06T05:13:23.646Z
+TC-023,Verify file upload dialog opens,Positive,Frontend,Click attachment button,"1. Click paperclip icon
+2. Verify file dialog opens",N/A,System file selection dialog opens,Attach file button opened the native file chooser.,Pass,Pass,,2026-04-06T05:13:25.240Z
+TC-024,Verify file upload attaches multiple files,Positive,Integration,File dialog open,"1. Select multiple files
+2. Verify attachments appear",Files: 2-3 various file types,Selected files display as attachment thumbnails below input,Multiple file selections rendered pending attachment chips.,Pass,Pass,,2026-04-06T05:13:26.773Z
+TC-025,Verify attachment can be removed,Positive,Frontend,Files attached to message,"1. Click 'x' button on an attachment
+2. Verify removal",N/A,Attachment removes from pending attachments list,Clicking the attachment x removed it from the pending list.,Pass,Pass,,2026-04-06T05:13:28.593Z
+TC-026,Verify message with attachments sends,Positive,Integration,Text and attachments ready,"1. Enter text and attach file
+2. Click Send button",Text: Here's a file + attachment,Message sends with both text and attachment visible in chat stream,Message sent with text and file attachment visible in the chat stream.,Pass,Pass,,2026-04-06T05:13:30.839Z
+TC-027,Verify guest session persists across refresh,Positive,Frontend,Guest session active with messages,"1. Send message as guest
+2. Refresh page
+3. Check for messages",N/A,Previous messages and guest session state restore correctly,Guest chat history restored correctly after browser refresh.,Pass,Pass,,2026-04-06T05:13:34.049Z
+TC-028,Verify guest session expires after 3 hours,Negative,Backend,Guest session created,"1. Create guest session
+2. Wait 3 hours
+3. Attempt to send message",N/A,"System shows ""Guest session expired (3 hours limit). Please sign up to continue chatting."" message",Expired guest session blocked sending and surfaced the expiry message.,Pass,Pass,Backend validation inferred from observable guest-session expiry behavior; no direct backend or database inspection was available.,2026-04-06T05:13:36.013Z
+TC-029,Verify right sidebar model details display,Positive,Frontend,Active model selected,"1. Check right sidebar content
+2. Verify model information",N/A,"Sidebar shows model icon, name, organization, tags, description, context, rating, price, reviews","Right sidebar showed model icon, metadata, description, and summary stats.",Pass,Pass,,2026-04-06T05:13:37.381Z
+TC-030,Verify usage statistics chart updates,Positive,Integration,Messages sent in current session,"1. Send multiple messages
+2. Check usage chart",Messages: 5+ messages,Usage overview chart shows activity bars updated with recent message timestamps,Usage overview updated after sending 5 messages in the same guest session.,Pass,Pass,,2026-04-06T05:13:41.680Z
+TC-031,Verify quick action buttons send messages,Positive,Integration,Quick actions visible,"1. Click a quick action button
+2. Verify message sends",Quick action: Any from right sidebar,Clicked quick action text appears as sent message,Quick action button sent its prompt text into the conversation.,Pass,Pass,,2026-04-06T05:13:43.416Z
+TC-032,Verify Sign In button navigation,Positive,Frontend,Click Sign In button,1. Click Sign In button in navbar,N/A,Navigates to /auth/login page,Navbar Sign In button routed to /auth/login.,Pass,Pass,,2026-04-06T05:13:45.092Z
+TC-033,Verify Get Started button navigation,Positive,Frontend,Click Get Started button,1. Click Get Started button in navbar,N/A,Navigates to /auth/signup page,Navbar Get Started button routed to /auth/signup.,Pass,Pass,,2026-04-06T05:13:46.725Z
+TC-034,Verify empty message cannot send,Negative,Frontend,Input field empty," no attachments
+2. Click Send button",N/A,"Send button remains disabled (greyed out), no message sends",Send button stayed disabled while the composer was empty.,Pass,Pass,,2026-04-06T05:13:48.186Z
+TC-035,Verify whitespace-only message cannot send,Negative,Frontend,Input contains only spaces,"1. Type only spaces in input
+2. Click Send button",Input:     (spaces only),"Send button remains disabled, no message sends",Whitespace-only input did not enable the send button.,Pass,Pass,,2026-04-06T05:13:49.789Z
+TC-036,Verify invalid model ID in URL query,Negative,Integration,Navigate with invalid model parameter,"1. Navigate to /chat?model=invalid-model-id
+2. Check page behavior",Model: invalid-model-id,System falls back to default model or first available model,Invalid model query gracefully fell back to a valid default model.,Pass,Pass,,2026-04-06T05:13:51.138Z
+TC-037,Verify network error on message send,Negative,Integration,Backend service unavailable,"1. Start message send
+2. Simulate network failure
+3. Check error handling",N/A,"System displays ""I could not reach the chat service. Please try again."" message",Network failure rendered the fallback assistant error message.,Pass,Pass,,2026-04-06T05:13:53.046Z
+TC-038,Verify camera permission denied handling,Negative,Frontend,Click camera icon," deny permission
+2. Deny camera permission in browser dialog",N/A,"System shows ""Camera access denied."" alert, camera modal does not open",Denied camera permission showed the Camera access denied alert.,Pass,Pass,,2026-04-06T05:13:54.855Z
+TC-039,Verify microphone permission denied handling,Negative,Frontend,Click microphone," deny permission
+2. Deny microphone permission in browser dialog",N/A,"System shows ""Voice input not supported in this browser."" or permission denied alert",Denied microphone permission surfaced the microphone access denied alert.,Pass,Pass,,2026-04-06T05:13:56.430Z
+TC-040,Verify voice input browser compatibility,Negative,Frontend,Browser without Speech Recognition API,1. Try to use voice input in unsupported browser,N/A,"System shows ""Voice input not supported in this browser."" alert",Unsupported browser voice input showed the expected fallback alert.,Pass,Pass,,2026-04-06T05:13:57.955Z
+TC-041,Verify message timestamp display,Positive,Frontend,Messages exist in chat,1. Check message timestamps,N/A,Each message shows timestamp in HH:MM:SS format below message content,"Message timestamps rendered successfully, including 10:13:59.",Pass,Pass,,2026-04-06T05:13:59.949Z
+TC-042,Verify typing indicator animation,Positive,Frontend,Message sent," waiting for response
+2. Observe typing indicator",N/A,Three-dot typing indicator animates (dots pulse sequentially) while waiting for AI response,Three-dot typing indicator appeared while the delayed assistant response was pending.,Pass,Pass,,2026-04-06T05:14:03.910Z
+TC-043,Verify auto-scroll to latest message,Positive,Frontend,Multiple messages in chat,"1. Send new message
+2. Verify scroll position",N/A,Chat stream automatically scrolls to show newest message,Chat stream auto-scrolled to keep the latest message in view.,Pass,Pass,,2026-04-06T05:14:09.907Z
+TC-044,Verify model badge displays,Positive,Frontend,Model with badge selected,"1. Select model with badge
+2. Check badge visibility",Model: Any model with badge property,Badge appears on model in sidebar and in right sidebar details,Model badge rendered both in the sidebar list and active model detail panel.,Pass,Pass,,2026-04-06T05:14:11.816Z
+TC-045,Verify language selector functionality,Positive,Frontend,Click language selector,"1. Click language dropdown
+2. Select different language",Language: Any available option,"Language selection updates, potentially changes text direction for RTL languages",Selecting Arabic updated the language selector and switched the page direction to RTL.,Pass,Pass,,2026-04-06T05:14:13.581Z
+TC-046,Verify prompt suggestions panel toggle,Positive,Frontend,Prompt suggestions panel visible,"1. Click sparkles/AI icon
+2. Verify panel toggles",N/A,Panel opens/closes based on current state,Prompt suggestions panel toggled closed and reopened from the sparkles button.,Pass,Pass,,2026-04-06T05:14:15.580Z
+TC-047,Verify video recorder modal cancel,Positive,Frontend,Video recorder modal open,"1. Click Cancel button
+2. Verify modal closes",N/A,Video recorder modal closes without attaching video,Video recorder modal closed cleanly without attaching any video.,Pass,Pass,,2026-04-06T05:14:17.696Z
+TC-048,Verify attachment file type detection,Positive,Frontend,Attach various file types,"1. Attach image file
+2. Attach audio file
+3. Attach document file",Files: .jpg, .mp3,Audio and document attachments were both rendered with the generic File label instead of distinct type labels.,Fail,Fail,Current upload implementation only distinguishes image files from all other file types.,2026-04-06T05:14:19.231Z
+TC-049,Verify user message styling,Positive,Frontend,User message in chat,1. Check user message appearance,N/A,"User message has accent background, white text, rounded corners with different radius pattern, right-aligned","User message bubble used accent styling, white text, and right-side alignment.",Pass,Pass,,2026-04-06T05:14:21.128Z
+TC-050,Verify assistant message styling,Positive,Frontend,Assistant message in chat,1. Check assistant message appearance,N/A,"Assistant message has white background, dark text, border, shadow, left-aligned with model icon",Assistant message bubble used the white bordered card style with left alignment.,Pass,Pass,,2026-04-06T05:14:23.151Z

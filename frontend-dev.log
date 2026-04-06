@@ -1,0 +1,13 @@
+
+> frontend@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.2 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.27.224.1:3000
+- Environments: .env.local
+✓ Ready in 1275ms
+Creating turbopack project { dir: 'D:\\New folder (2)\\NEXUS-AI\\frontend', testMode: true }
+
+ GET /auth/signup 200 in 1027ms (next.js: 380ms, application-code: 647ms)
+ GET / 200 in 215ms (next.js: 45ms, application-code: 170ms)
