@@ -1,0 +1,15 @@
+TestCaseID,Module,TestName,Type,Method,Endpoint,RequestBody,ExpectedStatus,Priority
+TC-CHAT-001,chat,Create guest session,functional,POST,/api/chat/session,"{""isGuest"":true,""modelId"":""gpt4o""}",201,Critical
+TC-CHAT-002,chat,Create authenticated session,functional,POST,/api/chat/session,"{""isGuest"":false,""modelId"":""gpt4o""}",201,Critical
+TC-CHAT-003,chat,Send message to new session (auto-create),functional,POST,/api/chat/send,"{""modelId"":""gpt4o"",""content"":""Hello from QA""}",200,Critical
+TC-CHAT-004,chat,Send message to existing session,functional,POST,/api/chat/send,"{""sessionId"":""{id}"",""modelId"":""gpt4o"",""content"":""Second message""}",200,High
+TC-CHAT-005,chat,Get chat history authenticated,functional,GET,/api/chat/history,,200,High
+TC-CHAT-006,chat,Get chat history without token,negative,GET,/api/chat/history,,401,High
+TC-CHAT-007,chat,Delete own session,functional,DELETE,/api/chat/session/{id},,200,High
+TC-CHAT-008,chat,Delete non-existent session,negative,DELETE,/api/chat/session/000000000000000000000000,,404,Medium
+TC-CHAT-009,chat,Delete another user session (forbidden),security,DELETE,/api/chat/session/{other_id},,403,Critical
+TC-CHAT-010,chat,Migrate guest sessions,functional,POST,/api/chat/migrate,"{""guestId"":""{guestId}""}",200,High
+TC-CHAT-011,chat,Migrate already migrated sessions,negative,POST,/api/chat/migrate,"{""guestId"":""nonexistent-guest-id""}",200,Medium
+TC-CHAT-012,chat,Send to expired guest session,security,POST,/api/chat/send,"{""sessionId"":""{expired_id}"",""modelId"":""gpt4o"",""content"":""test""}",403,High
+TC-CHAT-013,chat,Send message with empty content,boundary,POST,/api/chat/send,"{""modelId"":""gpt4o"",""content"":""""}",200,Medium
+TC-CHAT-014,chat,History returns array (not null),functional,GET,/api/chat/history,,200,High

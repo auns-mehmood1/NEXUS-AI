@@ -1,0 +1,55 @@
+{
+  "timestamp": "2026-04-14T10:39:26Z",
+  "commit": "1ab64d2",
+  "branch": "qa-testing",
+  "status": "YELLOW",
+  "pipeline": {
+    "phase1a_test_case_generator": "pass",
+    "phase1b_observability_audit": "pass",
+    "phase2_api_testing": "pass",
+    "phase3_bug_detection": "pass",
+    "phase4_regression": "pass",
+    "phase5_report": "pass"
+  },
+  "test_results": {
+    "total": 61,
+    "passed": 57,
+    "failed": 2,
+    "xfailed": 2,
+    "skipped": 0,
+    "performance_pending": 0,
+    "pass_rate": "93.4% (96.6% excl. known bugs)",
+    "duration_seconds": 26.82
+  },
+  "bugs": {
+    "critical": 2,
+    "high": 4,
+    "medium": 3,
+    "low": 0,
+    "total": 9
+  },
+  "bug_ids": {
+    "critical": [
+      "BUG-AUTH-001",
+      "BUG-AUTH-002"
+    ],
+    "high": [
+      "BUG-CHAT-001",
+      "BUG-CHAT-002",
+      "BUG-CHAT-003",
+      "BUG-DASHBOARD-001"
+    ],
+    "medium": [
+      "BUG-MODELS-001",
+      "BUG-UPLOAD-001",
+      "BUG-AUTH-003"
+    ]
+  },
+  "confirmed_by_tests": [
+    "BUG-CHAT-003",
+    "BUG-MODELS-001"
+  ],
+  "observability_score": "2/10",
+  "report": "automation-artifacts/qa-final-report-20260414-113811.md",
+  "baseline": "automation-artifacts/regression-baseline.json"
+}

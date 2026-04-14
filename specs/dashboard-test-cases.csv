@@ -1,0 +1,6 @@
+TestCaseID,Module,TestName,Type,Method,Endpoint,RequestBody,ExpectedStatus,Priority
+TC-DASH-001,dashboard,Get usage with valid token,functional,GET,/api/dashboard/usage,,200,High
+TC-DASH-002,dashboard,Get usage without token,negative,GET,/api/dashboard/usage,,401,High
+TC-DASH-003,dashboard,Usage response has required fields,functional,GET,/api/dashboard/usage,,200,Medium
+TC-CONTENT-001,content,Get public content,functional,GET,/api/content/public,,200,Medium
+TC-CONTENT-002,content,Public content returns array/object,functional,GET,/api/content/public,,200,Low

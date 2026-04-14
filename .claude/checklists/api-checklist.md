@@ -1,45 +1,115 @@
-﻿# API Checklist
+# API Test Coverage Checklist
 
-## Auth
+Run this checklist before marking the API test suite as complete.
 
-- [ ] `POST /api/v1/auth/sign-in` returns stable auth payloads
-- [ ] `POST /api/v1/auth/refresh` rotates or refreshes tokens safely
-- [ ] `POST /api/v1/auth/logout` invalidates the active refresh path
-- [ ] `POST /api/v1/auth/upgrade-guest` merges guest history idempotently
+## Auth Module
 
-## Guest Sessions
+### POST /api/auth/signup
+- [ ] Valid signup (name, email, password) → 201 + accessToken + refreshToken
+- [ ] Duplicate email → 409 Conflict
+- [ ] Missing name → 400
+- [ ] Missing email → 400
+- [ ] Missing password → 400
+- [ ] Invalid email format → 400
+- [ ] Password shorter than 6 chars → 400
+- [ ] Extra fields stripped (whitelist:true) → 201 (extra fields ignored)
+- [ ] NoSQL injection in email → 400 (not 500)
+- [ ] XSS in name → 201 (stored safely, not executed)
 
-- [ ] `POST /api/v1/guest-sessions` creates a guest session with explicit expiry
-- [ ] Expiry timestamp equals creation time plus `10800000`
-- [ ] Expired guest sessions are rejected or cleaned up predictably
+### POST /api/auth/login
+- [ ] Valid credentials → 200 + token pair
+- [ ] Wrong password → 401
+- [ ] Non-existent email → 401
+- [ ] Missing email → 400
+- [ ] Missing password → 400
 
-## Models
+### GET /api/auth/me
+- [ ] Valid access token → 200 + user object
+- [ ] No Authorization header → 401
+- [ ] Expired access token → 401
+- [ ] Tampered token → 401
 
-- [ ] `GET /api/v1/models` supports search, filter, pagination, and capability metadata
-- [ ] `GET /api/v1/models/:id` returns model detail fields needed by right panel and marketplace
-- [ ] `GET /api/v1/models/providers` returns provider filter data
-- [ ] Capability metadata supports smart routing decisions
+### POST /api/auth/refresh
+- [ ] Valid refresh token → 200 + new token pair
+- [ ] Expired refresh token → 401
+- [ ] Invalid refresh token → 401
+- [ ] After logout, old refresh token → 401
 
-## Chat
+### POST /api/auth/logout
+- [ ] Valid token → 200 (or 204)
+- [ ] After logout, old refresh token rejected → 401
+- [ ] No token → 401
 
-- [ ] `POST /api/v1/chat/sessions` creates sessions for guest and signed-in users
-- [ ] `GET /api/v1/chat/sessions/:id` returns history with active model context
-- [ ] `POST /api/v1/chat/sessions/:id/messages` persists user and assistant turns
-- [ ] Message payloads can include attachments metadata when needed
+---
 
-## Uploads
+## Chat Module
 
-- [ ] `POST /api/v1/uploads` validates file type and size
-- [ ] Upload responses include stable metadata for chat attachments
+### POST /api/chat/session
+- [ ] Guest session (isGuest: true) → 201 + guestId + expiresAt
+- [ ] Authenticated session → 201 + sessionId (no guestId)
+- [ ] No body → 400
 
-## Analytics
+### POST /api/chat/send
+- [ ] New message (no sessionId) → auto-creates session → 200
+- [ ] Message to existing session → 200 + AI response
+- [ ] Message to expired guest session → 403
+- [ ] Valid message → response.message.role === 'assistant'
 
-- [ ] `GET /api/v1/analytics/usage-overview` returns requests, latency, and cost data
-- [ ] Right-panel analytics contract is lightweight and consistent
+### GET /api/chat/history
+- [ ] Authenticated user → 200 + array (can be empty)
+- [ ] No token → 401
 
-## API Quality
+### DELETE /api/chat/session/:id
+- [ ] Valid own session → 200 (or 204)
+- [ ] Non-existent session → 404
+- [ ] Another user's session → 403
+- [ ] No token → 401
 
-- [ ] DTO validation exists for mutable endpoints
-- [ ] Error responses are consistent and documented
-- [ ] Auth-required endpoints reject unauthorized access correctly
-- [ ] Catalog endpoints are cache-friendly
+### POST /api/chat/migrate
+- [ ] Valid guestId → 200 + { migrated: N }
+- [ ] Already migrated guestId → 200 + { migrated: 0 }
+- [ ] No token → 401
+
+---
+
+## Models Module
+
+### GET /api/models
+- [ ] No params → 200 + array with items
+- [ ] ?search=gpt → filtered results
+- [ ] ?type=text → filtered results
+- [ ] ?maxPrice=0.5 → filtered results
+- [ ] ?maxPrice=abc → should not 500 (invalid input handled)
+- [ ] ?lab=openai → filtered results
+
+### GET /api/models/:id
+- [ ] Valid model ID → 200 + model object
+- [ ] Non-existent ID → 404
+- [ ] Invalid format ID → 404 (not 500)
+
+---
+
+## Dashboard Module
+
+### GET /api/dashboard/usage
+- [ ] Valid token → 200 + usage object (totalRequests, avgLatency, etc.)
+- [ ] No token → 401
+
+---
+
+## Content Module
+
+### GET /api/content/public
+- [ ] No auth → 200 + array
+- [ ] Response is array (not null, not undefined)
+
+---
+
+## Cross-Cutting Concerns
+
+- [ ] CORS allows `http://localhost:3000` origin
+- [ ] CORS rejects other origins
+- [ ] All protected routes return 401 without token
+- [ ] Error responses follow NestJS format: `{ statusCode, message, error }`
+- [ ] No stack traces exposed in production-mode error responses
+- [ ] Large payloads (>1MB) on chat/send handled gracefully

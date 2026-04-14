@@ -1,0 +1,130 @@
+{
+  "projectName": "NexusAI QA",
+  "description": "Agentic QA system for NexusAI — AI model aggregation platform",
+
+  "agents": [
+    {
+      "name": "orchestrator-agent",
+      "file": ".claude/agents/orchestrator-agent.md",
+      "description": "Master QA coordinator. Runs all agents in sequence, aggregates results, produces final report.",
+      "trigger": "manual",
+      "command": "/orchestrate-qa"
+    },
+    {
+      "name": "test-case-generator-agent",
+      "file": ".claude/agents/test-case-generator-agent.md",
+      "description": "Generates functional, negative, boundary, and security test cases from source code.",
+      "trigger": "manual",
+      "command": "/generate-test-cases"
+    },
+    {
+      "name": "api-testing-agent",
+      "file": ".claude/agents/api-testing-agent.md",
+      "description": "Executes automated API tests against live backend endpoints.",
+      "trigger": "manual",
+      "command": "/run-api-suite"
+    },
+    {
+      "name": "bug-detection-agent",
+      "file": ".claude/agents/bug-detection-agent.md",
+      "description": "Analyzes test results and logs to detect, classify, and document bugs.",
+      "trigger": "manual",
+      "command": "/detect-bugs"
+    },
+    {
+      "name": "regression-testing-agent",
+      "file": ".claude/agents/regression-testing-agent.md",
+      "description": "Validates fixes and ensures no regressions after changes.",
+      "trigger": "manual",
+      "command": "/regression-test"
+    },
+    {
+      "name": "observability-agent",
+      "file": ".claude/agents/observability-agent.md",
+      "description": "Audits logging, metrics, and tracing coverage. Detects silent failures.",
+      "trigger": "manual",
+      "command": "/observability-check"
+    }
+  ],
+
+  "skills": [
+    {
+      "name": "generate-test-cases",
+      "file": ".claude/skills/test-case-generation.md",
+      "description": "Generate functional, negative, boundary, and security test cases",
+      "userInvocable": true
+    },
+    {
+      "name": "run-api-suite",
+      "file": ".claude/skills/api-test-suite.md",
+      "description": "Execute automated API test suite against live backend",
+      "userInvocable": true
+    },
+    {
+      "name": "detect-bugs",
+      "file": ".claude/skills/bug-reproduction.md",
+      "description": "Detect and reproduce bugs from test results and logs",
+      "userInvocable": true
+    },
+    {
+      "name": "edge-case-discovery",
+      "file": ".claude/skills/edge-case-discovery.md",
+      "description": "Discover hidden edge cases and unusual system behaviors",
+      "userInvocable": true
+    },
+    {
+      "name": "failure-injection",
+      "file": ".claude/skills/failure-injection.md",
+      "description": "Simulate database downtime, API timeouts, and token failures",
+      "userInvocable": true
+    },
+    {
+      "name": "performance-test",
+      "file": ".claude/skills/performance-testing.md",
+      "description": "Design and run k6 load tests for NexusAI endpoints",
+      "userInvocable": true
+    },
+    {
+      "name": "observability-check",
+      "file": ".claude/skills/observability-qa.md",
+      "description": "Audit logging, metrics, and tracing coverage",
+      "userInvocable": true
+    },
+    {
+      "name": "orchestrate-qa",
+      "file": ".claude/skills/agent-orchestration.md",
+      "description": "Run the full QA pipeline and produce a final report",
+      "userInvocable": true
+    }
+  ],
+
+  "artifactsDir": "automation-artifacts",
+
+  "rules": ".claude/rules.md",
+
+  "testConfig": {
+    "baseUrl": "http://localhost:8000/api",
+    "frontendUrl": "http://localhost:3000",
+    "testUserEmailPattern": "qa-{uuid}@nexusai.test",
+    "testUserPassword": "QaTest123!",
+    "timeoutMs": 10000,
+    "maxRetries": 2
+  },
+
+  "riskRegister": {
+    "critical": [
+      "Hardcoded JWT secrets (BUG-AUTH-001)",
+      "No startup secret validation"
+    ],
+    "high": [
+      "No rate limiting on auth (BUG-AUTH-002)",
+      "String vs ObjectId comparison (BUG-CHAT-001)",
+      "Guest message ownership not enforced (BUG-CHAT-002)"
+    ],
+    "medium": [
+      "Dashboard hardcoded mock data (BUG-DASHBOARD-001)",
+      "NaN from parseFloat (BUG-MODELS-001)",
+      "50MB body limit on unauthenticated routes (BUG-UPLOAD-001)"
+    ]
+  }
+}

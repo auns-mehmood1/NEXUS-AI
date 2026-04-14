@@ -1,0 +1,11 @@
+TestCaseID,Module,TestName,Type,Method,Endpoint,RequestBody,ExpectedStatus,Priority
+TC-MODELS-001,models,List all models,functional,GET,/api/models,,200,High
+TC-MODELS-002,models,List models returns array,functional,GET,/api/models,,200,High
+TC-MODELS-003,models,Search filter,functional,GET,/api/models?search=gpt,"{""search"":""gpt""}",200,Medium
+TC-MODELS-004,models,Type filter,functional,GET,/api/models?type=language,"{""type"":""language""}",200,Medium
+TC-MODELS-005,models,Price filter,functional,GET,/api/models?maxPrice=1,"{""maxPrice"":1}",200,Medium
+TC-MODELS-006,models,Invalid maxPrice (NaN),boundary,GET,/api/models?maxPrice=abc,"{""maxPrice"":""abc""}",200,Medium
+TC-MODELS-007,models,Get model by valid ID,functional,GET,/api/models/gpt4o,,200,High
+TC-MODELS-008,models,Get model by invalid ID,negative,GET,/api/models/doesnotexist,,404,High
+TC-MODELS-009,models,Empty search returns all,functional,GET,/api/models?search=,"{""search"":""""}",200,Low
+TC-MODELS-010,models,Very large maxPrice,boundary,GET,/api/models?maxPrice=9999999,"{""maxPrice"":9999999}",200,Low

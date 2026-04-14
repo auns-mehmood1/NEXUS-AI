@@ -1,108 +1,56 @@
-﻿# NexusAI Build Rules
+# Global QA Rules
 
-These rules are mandatory for every future build pass.
+All agents and skills must follow these rules unconditionally.
 
-## Hard Boundaries
+## Environment
 
-- Do not create a new repository.
-- Treat `frontend/` and `backend/` as the only app repos.
-- Do not dump large files or long generated code into chat unless explicitly requested.
-- Modify only necessary files for the current task.
-- Prefer incremental commits grouped by feature or layer.
-- Always summarize changes in short form after each pass.
-- Avoid duplicate code, duplicate styles, and duplicated business logic.
+- Backend runs on `http://localhost:8000/api`
+- Frontend runs on `http://localhost:3000`
+- Database: MongoDB (local or Atlas, see `backend/.env`)
+- Never run tests against a production environment
+- Never commit `.env` files or tokens to the repository
 
-## Reference-First Rule
+## Test Data
 
-- `frontend/index.html` is the canonical feature and interaction reference.
-- `frontend/screenshots/` is the canonical layout and composition reference.
-- Improvements are allowed only if the required sections, actions, and flows remain present.
-- Final UI must stay in a light modern theme. Dark theme is out of scope.
+- Create isolated test users with emails like `qa-test-<uuid>@nexusai.test`
+- Clean up all created test users, sessions, and data after each test run
+- Never reuse data across test suites — each suite manages its own state
+- Use predictable seeds when you need deterministic results
 
-## Required Navigation
+## Authentication
 
-Every build must preserve visible access to:
+- JWT access tokens expire in `15m` — refresh before long-running suites
+- Refresh tokens expire in `7d`
+- Dev fallback secrets (from source): `nexusai-secret-change-in-prod`, `nexusai-refresh-secret`
+- Guest sessions expire after `3 hours` — do not rely on guest state across runs
 
-- `Chat Hub`
-- `Marketplace`
-- `Agents`
-- `Discover New`
-- language selector
-- `Sign In`
-- `Get Started` or `Try Free`
+## API Conventions
 
-## Required Chat Hub Shape
+- All endpoints are prefixed with `/api`
+- Validation is via NestJS `ValidationPipe` with `whitelist: true`
+- Extra fields in request bodies are silently stripped
+- Errors follow NestJS default: `{ statusCode, message, error }`
 
-- Use a three-column app shell.
-- Left sidebar contains a searchable model list with at least 400 models. Match the reference more closely by targeting 525+ if feasible.
-- Center column contains chat history, message composer, active model meta, attachments, and action prompts.
-- Right panel must show:
-  - active model card with context, rating, and price
-  - usage overview with requests, average latency, and cost
-  - a graph or sparkline
-  - grouped quick actions
+## Risk Classification
 
-## Required Marketplace Shape
+All bugs and findings must be classified:
 
-- model card grid
-- chip filters for `language`, `vision`, `code`, `image gen`, `audio`, and `open source`
-- left sidebar filters for provider and pricing
-- token limit slider
-- pagination or virtualization for long lists
+| Severity | Criteria |
+|----------|----------|
+| Critical | Security breach, data loss, auth bypass, service crash |
+| High | Core flow broken, incorrect data returned, data leak |
+| Medium | Non-critical feature broken, degraded UX, unexpected behavior |
+| Low | Minor UI inconsistency, non-blocking edge case |
 
-## Required Guest And Auth Rules
+## Reporting
 
-- Guest users can chat without signing in.
-- Guest history must be stored locally with exact 3 hour expiry.
-- Use a layered strategy:
-  - localStorage for cached conversation payloads
-  - sessionStorage for active transient UI state
-  - cookie for guest session id and expiry marker when useful
-- Expiry must be exactly `10800000` milliseconds from guest session creation.
-- Signing in upgrades guest history into permanent backend history.
-- Upgrade flow must avoid data loss and duplicate messages.
+- Each agent outputs its results to `automation-artifacts/`
+- All reports must include: timestamp, agent name, pass/fail counts, severity breakdown
+- The orchestrator merges all reports into `automation-artifacts/qa-final-report.md`
+- Never overwrite a prior report — append a timestamp suffix
 
-## Required Model Switching Rules
+## Security Testing Boundaries
 
-- Selecting a model changes the active model for the next chat turns.
-- The active model name must appear near chat meta and composer context.
-- Right-panel stats must update when the active model changes.
-
-## Smart Capability Routing Rule
-
-If the selected model does not natively support image, audio, video, or vision work:
-
-- do not silently fail
-- do not show a dead button
-- generate a facilitation prompt template instead
-- recommend a better-suited model
-- explain the capability gap in plain language
-
-This rule must mirror the intent of `getActionPrompt()` from `frontend/index.html`.
-
-## Performance And Token Rules
-
-- Cache model metadata on the frontend and backend.
-- Use pagination or virtualization for large model lists and marketplace grids.
-- Keep route payloads lean.
-- Lazy-load non-critical detail panels and heavy modals.
-- Avoid repeated network fetches for stable reference data.
-- Prefer derived selectors over repeated traversal of large arrays.
-- Keep prompts and generated summaries compact unless detail is explicitly requested.
-
-## Delivery Quality Rules
-
-- No dead buttons, empty routes, or fake success states.
-- Responsive on desktop and mobile.
-- Accessible focus states, semantic headings, and keyboard support.
-- Backend endpoints must return consistent errors and typed contracts.
-- Analyzer and QA findings must be resolved before a pass is considered complete.
-
-## Fix Loop Rule
-
-The build is not done when it merely compiles. It is done when:
-
-1. required sections exist
-2. required flows work
-3. QA passes the checklists
-4. Analyzer reports a close visual and behavioral match with no critical gaps
+- Authorized to test: auth bypass, JWT forgery, input injection (non-destructive payloads), token replay
+- NOT authorized to: DoS attacks, mass data deletion, anything that could harm a shared environment
+- If testing injection: use innocuous payloads like `' OR 1=1 --` in isolated test accounts

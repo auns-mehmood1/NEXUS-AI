@@ -1,0 +1,21 @@
+TestCaseID,Module,TestName,Type,Method,Endpoint,RequestBody,ExpectedStatus,Priority
+TC-AUTH-001,auth,Valid signup with all fields,functional,POST,/api/auth/signup,"{""name"":""QA Test"",""email"":""qa-{uuid}@nexusai.test"",""password"":""QaTest123""}",201,Critical
+TC-AUTH-002,auth,Duplicate email signup,negative,POST,/api/auth/signup,"{""name"":""QA Test"",""email"":""qa-dup@nexusai.test"",""password"":""QaTest123""}",409,High
+TC-AUTH-003,auth,Missing name field,negative,POST,/api/auth/signup,"{""email"":""qa@test.com"",""password"":""QaTest123""}",400,High
+TC-AUTH-004,auth,Missing email field,negative,POST,/api/auth/signup,"{""name"":""QA Test"",""password"":""QaTest123""}",400,High
+TC-AUTH-005,auth,Missing password field,negative,POST,/api/auth/signup,"{""name"":""QA Test"",""email"":""qa@test.com""}",400,High
+TC-AUTH-006,auth,Invalid email format,negative,POST,/api/auth/signup,"{""name"":""QA Test"",""email"":""notanemail"",""password"":""QaTest123""}",400,High
+TC-AUTH-007,auth,Password too short (5 chars),boundary,POST,/api/auth/signup,"{""name"":""QA Test"",""email"":""qa@test.com"",""password"":""short""}",400,Medium
+TC-AUTH-008,auth,Password at minimum (6 chars),boundary,POST,/api/auth/signup,"{""name"":""QA Test"",""email"":""qa-min@nexusai.test"",""password"":""123456""}",201,Medium
+TC-AUTH-009,auth,Valid login with correct credentials,functional,POST,/api/auth/login,"{""email"":""qa-{uuid}@nexusai.test"",""password"":""QaTest123""}",200,Critical
+TC-AUTH-010,auth,Login with wrong password,negative,POST,/api/auth/login,"{""email"":""qa-{uuid}@nexusai.test"",""password"":""wrongpass""}",401,High
+TC-AUTH-011,auth,Login with non-existent email,negative,POST,/api/auth/login,"{""email"":""nobody@nexusai.test"",""password"":""QaTest123""}",401,High
+TC-AUTH-012,auth,Get current user with valid token,functional,GET,/api/auth/me,,200,Critical
+TC-AUTH-013,auth,Get current user without token,negative,GET,/api/auth/me,,401,High
+TC-AUTH-014,auth,Refresh tokens with valid refresh token,functional,POST,/api/auth/refresh,,200,Critical
+TC-AUTH-015,auth,Refresh with invalid token string,negative,POST,/api/auth/refresh,"{""refreshToken"":""totally.invalid.token""}",401,High
+TC-AUTH-016,auth,Logout with valid token,functional,POST,/api/auth/logout,,200,High
+TC-AUTH-017,auth,Refresh after logout (replay),security,POST,/api/auth/refresh,,401,Critical
+TC-AUTH-018,auth,NoSQL injection in login email,security,POST,/api/auth/login,"{""email"":{""$gt"":""""},""password"":""anything""}",400,Critical
+TC-AUTH-019,auth,XSS payload in signup name,security,POST,/api/auth/signup,"{""name"":""<script>alert(1)</script>"",""email"":""qa-xss@nexusai.test"",""password"":""QaTest123""}",201,High
+TC-AUTH-020,auth,Empty request body on signup,negative,POST,/api/auth/signup,{},400,Medium
