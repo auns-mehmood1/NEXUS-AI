@@ -1,0 +1,446 @@
+{
+  "total": 60,
+  "passed": 58,
+  "failed": 2,
+  "blocked": 0,
+  "bugs": [
+    {
+      "Test ID": "TC-LG-050",
+      "Test Title": "Navbar Sign In button navigates to /auth/login (stays on page)",
+      "Bug Description": "Navbar Sign In button navigates to /auth/login (stays on page) — Actual: Error: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav a:has-text(\"Sign In\")')\u001b[22m\n",
+      "Steps to Reproduce": "1. Navigate to /auth/login",
+      "Severity": "Low",
+      "Screenshot Path": "D:\\New folder (2)\\NEXUS-AI\\automation-artifacts\\TC-LG-050-error-1775711520876.png"
+    },
+    {
+      "Test ID": "TC-LG-051",
+      "Test Title": "Navbar Get Started button navigates to /auth/signup",
+      "Bug Description": "Navbar Get Started button navigates to /auth/signup — Actual: Error: locator.click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('nav a:has-text(\"Get Started\")')\u001b[22m\n",
+      "Steps to Reproduce": "1. Navigate to /auth/login",
+      "Severity": "Low",
+      "Screenshot Path": "D:\\New folder (2)\\NEXUS-AI\\automation-artifacts\\TC-LG-051-error-1775711552105.png"
+    }
+  ],
+  "results": [
+    {
+      "tcId": "TC-LG-001",
+      "title": "Page title renders correctly in browser tab",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-002",
+      "title": "Page heading Welcome back is visible",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-003",
+      "title": "Subtitle Sign in to continue to NexusAI renders below heading",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-004",
+      "title": "NexusAI hexagon logo icon renders above heading",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-005",
+      "title": "Form card renders with white background border and shadow",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-006",
+      "title": "Sticky navbar is visible at the top of the page",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-007",
+      "title": "NexusAI brand name and logo render in navbar",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-008",
+      "title": "Navbar displays all four navigation links",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-009",
+      "title": "Language selector button shows 🌐 EN with dropdown indicator",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-010",
+      "title": "Navbar Sign In button is visible with outlined style",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-011",
+      "title": "Navbar Get Started button is visible with accent fill",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-012",
+      "title": "Email field renders with correct label and placeholder",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-013",
+      "title": "Password field renders with correct label and placeholder",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-014",
+      "title": "Sign In submit button renders full-width with accent background",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-015",
+      "title": "Don't have an account? Create one free text and link render",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-016",
+      "title": "Continue as guest (3h session) link renders at card bottom",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-017",
+      "title": "Horizontal divider renders above guest link",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-018",
+      "title": "Radial gradient background renders on the page",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-019",
+      "title": "Login page renders only two form fields (Email and Password)",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-020",
+      "title": "Email field accepts typed input and reflects value",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-021",
+      "title": "Password field masks all typed characters",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-022",
+      "title": "Email placeholder disappears when user starts typing",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-023",
+      "title": "Password placeholder disappears when user starts typing",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-024",
+      "title": "Submitting with empty Email triggers browser required validation",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-025",
+      "title": "Submitting with empty Password triggers browser required validation",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-026",
+      "title": "Submitting with both fields empty triggers browser required validation",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-027",
+      "title": "Submitting invalid email format blocked by browser",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-028",
+      "title": "Email field with @ but no domain is rejected by browser",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-029",
+      "title": "Login has no client-side password length validation",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-030",
+      "title": "Error state is cleared at the start of each new submission",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-031",
+      "title": "Submit button shows Signing in... text during API call",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-032",
+      "title": "Submit button is disabled during loading state",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-033",
+      "title": "Submit button background changes to gray during loading",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-034",
+      "title": "Submit button text color changes to muted during loading",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-035",
+      "title": "Cursor shows not-allowed on submit button during loading",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-036",
+      "title": "Successful login redirects to /dashboard",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-037",
+      "title": "Auth tokens stored in auth store after successful login",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-038",
+      "title": "Guest session is migrated on successful login when guestId exists",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-039",
+      "title": "Login proceeds without error when no guest session exists",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-040",
+      "title": "Guest migration failure does not block login or redirect",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-041",
+      "title": "API error with message field shows that server message in error box",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-042",
+      "title": "Fallback error message shown when API response has no message field",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-043",
+      "title": "Error message box renders in a styled rose/red box",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-044",
+      "title": "Error message appears above the Sign In button",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-045",
+      "title": "Submit button reverts to Sign In and re-enables after API error",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-046",
+      "title": "Email field retains value after a failed login attempt",
+      "status": "Pass",
+      "layer": "Integration",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-047",
+      "title": "Create one free link in footer navigates to /auth/signup",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-048",
+      "title": "Continue as guest (3h session) link navigates to /chat",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-049",
+      "title": "NexusAI logo in navbar navigates to homepage",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-050",
+      "title": "Navbar Sign In button navigates to /auth/login (stays on page)",
+      "status": "Fail",
+      "layer": "UI",
+      "screenshotPath": "D:\\New folder (2)\\NEXUS-AI\\automation-artifacts\\TC-LG-050-error-1775711520876.png"
+    },
+    {
+      "tcId": "TC-LG-051",
+      "title": "Navbar Get Started button navigates to /auth/signup",
+      "status": "Fail",
+      "layer": "UI",
+      "screenshotPath": "D:\\New folder (2)\\NEXUS-AI\\automation-artifacts\\TC-LG-051-error-1775711552105.png"
+    },
+    {
+      "tcId": "TC-LG-052",
+      "title": "Navbar Chat Hub link navigates to /chat",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-053",
+      "title": "Navbar Marketplace link navigates to /marketplace",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-054",
+      "title": "Navbar Discover New link navigates to /discover",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-055",
+      "title": "Navbar Agents link navigates to /agents",
+      "status": "Pass",
+      "layer": "UI",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-056",
+      "title": "Email field is of type email (not text)",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-057",
+      "title": "Password field is of type password (not text)",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-058",
+      "title": "Both form fields have the required attribute",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-059",
+      "title": "Form does not navigate away from page on submission (preventDefault)",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    },
+    {
+      "tcId": "TC-LG-060",
+      "title": "Email field accepts address with subdomain format",
+      "status": "Pass",
+      "layer": "Frontend",
+      "screenshotPath": ""
+    }
+  ]
+}

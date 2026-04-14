@@ -1,0 +1,77 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-ST-001,Page H1 renders ""Settings"",UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the page heading",,H1 ""Settings"" is visible in Syne bold font,,Not Executed
+TC-ST-002,Subtitle renders ""Manage your account preferences"",UI,"1. Log in and navigate to /dashboard/settings
+2. Observe text below H1",,Subtitle ""Manage your account preferences"" is visible in text2 color,,Not Executed
+TC-ST-003,Content is constrained to max-width 600px,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe content area width",,Settings content does not exceed 600px regardless of viewport width,,Not Executed
+TC-ST-004,Profile card renders with white background border and border-radius,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Profile section card",,White card with 1px border and var(--radius) border-radius is visible,,Not Executed
+TC-ST-005,Profile card H2 reads ""Profile"",UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the first card heading",,H2 ""Profile"" is visible in Syne bold font inside the first card,,Not Executed
+TC-ST-006,Display Name label and input render inside Profile card,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Profile form",,Label ""Display Name"" (bold small) is shown above an editable text input,,Not Executed
+TC-ST-007,Display Name input is pre-filled with the authenticated user's name,Frontend,"1. Log in as a user with a known name
+2. Navigate to /dashboard/settings","User name: Jane Smith",Display Name input contains ""Jane Smith"" on page load,,Not Executed
+TC-ST-008,Display Name input is editable and reflects typed changes,Frontend,"1. Navigate to /dashboard/settings
+2. Clear the Display Name input
+3. Type a new name","Name: New Name",Input shows ""New Name"" as typed,,Not Executed
+TC-ST-009,Email label and input render inside Profile card,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Email field",,Label ""Email"" (bold small) is shown above an input field,,Not Executed
+TC-ST-010,Email input is pre-filled with the authenticated user's email,Frontend,"1. Log in and navigate to /dashboard/settings","Email: user@test.com",Email input shows the user's registered email address,,Not Executed
+TC-ST-011,Email input is disabled and cannot be edited,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Click the Email input and attempt to type",,Email input has the disabled attribute; typed characters are not accepted,,Not Executed
+TC-ST-012,Email input has a visually distinct disabled style,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Email input styling",,Email input has bg background color and text3 text color to indicate it is read-only,,Not Executed
+TC-ST-013,""Save Changes"" button renders with accent background and white text,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the submit button",,Pill-shaped ""Save Changes"" button with accent background and white text is visible,,Not Executed
+TC-ST-014,Clicking ""Save Changes"" does not navigate away from the page,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Click ""Save Changes""",,URL stays at /dashboard/settings; form submission is handled via e.preventDefault(),,Not Executed
+TC-ST-015,""Save Changes"" button label changes to ""✓ Saved!"" immediately after submit,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Click ""Save Changes""",,Button text changes to ""✓ Saved!"" immediately after the click,,Not Executed
+TC-ST-016,""✓ Saved!"" label reverts to ""Save Changes"" after 2 seconds,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Click ""Save Changes""
+3. Wait 2 seconds",,After 2 seconds button text returns to ""Save Changes"" automatically,,Not Executed
+TC-ST-017,""Save Changes"" can be clicked again after the 2-second reset,Frontend,"1. Click ""Save Changes""
+2. Wait 2 seconds
+3. Click again",,Button shows ""✓ Saved!"" again and resets after 2 seconds on each click,,Not Executed
+TC-ST-018,Pressing Enter inside the form submits and triggers the saved state,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Focus the Display Name input
+3. Press Enter",,""✓ Saved!"" feedback appears; page does not navigate away",,Not Executed
+TC-ST-019,Preferences card renders below the Profile card,UI,"1. Log in and navigate to /dashboard/settings
+2. Scroll below the Profile card",,A second white card is visible with 1.25rem spacing below the Profile card,,Not Executed
+TC-ST-020,Preferences card H2 reads ""Preferences"",UI,"1. Log in and navigate to /dashboard/settings
+2. Observe second card heading",,H2 ""Preferences"" is visible in Syne bold font inside the second card,,Not Executed
+TC-ST-021,Preferences card shows exactly 3 preference rows,UI,"1. Log in and navigate to /dashboard/settings
+2. Count rows in Preferences card",,Exactly 3 preference rows are rendered: Email notifications / Show usage tips / Auto-save conversations,,Not Executed
+TC-ST-022,Each preference row shows a checkbox label and description,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe any preference row",,Row contains: checkbox on the left + bold label text + smaller text3 description below the label,,Not Executed
+TC-ST-023,""Email notifications"" preference row renders with correct description,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Email notifications row",,Label: ""Email notifications""; description: ""Receive updates about new models and features"",,Not Executed
+TC-ST-024,""Show usage tips"" preference row renders with correct description,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Show usage tips row",,Label: ""Show usage tips""; description: ""Show contextual tips while using Chat Hub"",,Not Executed
+TC-ST-025,""Auto-save conversations"" preference row renders with correct description,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe the Auto-save conversations row",,Label: ""Auto-save conversations""; description: ""Automatically save all chat sessions"",,Not Executed
+TC-ST-026,All 3 preference checkboxes are checked by default,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Observe the checked state of all checkboxes",,All three checkboxes render with defaultChecked=true; all appear checked on load,,Not Executed
+TC-ST-027,Clicking a checked preference checkbox unchecks it,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Click any checked preference checkbox",,Checkbox becomes unchecked visually,,Not Executed
+TC-ST-028,Clicking an unchecked preference checkbox re-checks it,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Uncheck a preference
+3. Click it again",,Checkbox becomes checked again,,Not Executed
+TC-ST-029,Preference checkboxes use accent color when checked,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe any checked preference checkbox",,Checkbox accent color matches var(--accent) (purple),,Not Executed
+TC-ST-030,Each preference row has a bottom border separating it from the next,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe row separators",,Each preference label element has a 1px var(--border) bottom border and 1rem bottom padding,,Not Executed
+TC-ST-031,Clicking anywhere on a preference row label toggles the checkbox,Frontend,"1. Log in and navigate to /dashboard/settings
+2. Click on the label text of a preference (not directly on the checkbox)",,Checkbox state toggles because the entire label element is clickable (cursor:pointer),,Not Executed
+TC-ST-032,Dashboard sidebar is visible alongside the Settings content,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe page layout",,220px dashboard sidebar (with nav links and user info) is visible on the left side,,Not Executed
+TC-ST-033,""Settings"" sidebar nav item is active on this page,UI,"1. Log in and navigate to /dashboard/settings
+2. Observe sidebar nav",,Settings item (⚙️) has accent color + bold + 3px left border + accent-lt background,,Not Executed
+TC-ST-034,Unauthenticated access redirects to /auth/login,Integration,"1. Ensure no user is logged in
+2. Navigate to /dashboard/settings",,Browser redirects to /auth/login via the dashboard layout guard,,Not Executed
+TC-ST-035,Display Name input falls back to empty string when user.name is undefined,Frontend,"1. Log in with a user that has no name set
+2. Navigate to /dashboard/settings",,Display Name input renders as an empty field rather than showing ""undefined"",,Not Executed
+TC-ST-036,Email input falls back to empty string when user.email is undefined,Frontend,"1. Log in with a user that has no email set
+2. Navigate to /dashboard/settings",,Email input renders as an empty field rather than showing ""undefined"",,Not Executed

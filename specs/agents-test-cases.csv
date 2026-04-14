@@ -1,0 +1,115 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-AG-001,Loading state shows ""Loading agents..."" while data fetches,UI,"1. Navigate to /agents
+2. Observe before content loads",,Centered text ""Loading agents..."" is shown while modelsLoading or contentLoading is true,,Not Executed
+TC-AG-002,Hero section renders with blue-to-white gradient background,UI,"1. Navigate to /agents
+2. Observe the hero area",,Hero has linear-gradient from blue-lt to white with bottom border; max-width 900px content centered,,Not Executed
+TC-AG-003,""Agent Builder - Beta"" pill badge renders in hero,UI,"1. Navigate to /agents
+2. Observe the badge above H1",,Blue-bordered pill reading ""Agent Builder - Beta"" is visible above the heading,,Not Executed
+TC-AG-004,H1 renders ""Build AI Agents"" with ""AI Agents"" in blue,UI,"1. Navigate to /agents
+2. Observe the H1",,H1 reads ""Build AI Agents""; the words ""AI Agents"" are rendered in blue color,,Not Executed
+TC-AG-005,Hero subtitle renders correct description text,UI,"1. Navigate to /agents
+2. Observe paragraph below H1",,Text ""Create custom AI agents powered by 400+ models. Configure, deploy, and monitor your agents from one dashboard."" is visible,,Not Executed
+TC-AG-006,""+ Create Agent"" button is visible in hero with blue style,UI,"1. Navigate to /agents
+2. Observe hero CTA buttons",,""+ Create Agent"" button with blue background and white text is visible",,Not Executed
+TC-AG-007,""Try in Chat First"" button is visible in hero with outlined style,UI,"1. Navigate to /agents
+2. Observe hero CTA buttons",,""Try in Chat First"" button with outlined style (no fill) is visible beside Create Agent",,Not Executed
+TC-AG-008,""Try in Chat First"" button navigates to /chat,Frontend,"1. Navigate to /agents
+2. Click ""Try in Chat First""",,Browser navigates to /chat,,Not Executed
+TC-AG-009,Agent Templates section heading and subtitle render,UI,"1. Navigate to /agents
+2. Scroll to template grid area",,H2 ""Agent Templates"" and subtitle ""Start from a template and customize for your needs."" are visible,,Not Executed
+TC-AG-010,Template grid uses auto-fill layout with min card width 280px,UI,"1. Navigate to /agents
+2. Observe the template card grid",,Cards arranged in auto-fill columns with minmax(280px 1fr),,Not Executed
+TC-AG-011,Each template card shows icon name description tags and Use Template button,UI,"1. Navigate to /agents
+2. Observe any template card",,Card contains: 44×44 blue-lt icon + name (Syne bold) + description + all tags as chips + ""Use Template ->"" blue button,,Not Executed
+TC-AG-012,Popular templates show an amber ""Popular"" badge beside the name,UI,"1. Navigate to /agents
+2. Find a template with popular=true",,Amber-colored ""Popular"" pill badge is visible next to the template name,,Not Executed
+TC-AG-013,Non-popular templates do not show the Popular badge,UI,"1. Navigate to /agents
+2. Find a template without popular flag",,No ""Popular"" badge is rendered on that card,,Not Executed
+TC-AG-014,""How Agent Creation Works"" section renders with 5 numbered steps,UI,"1. Navigate to /agents
+2. Scroll to the how-it-works section",,White card with H2 ""How Agent Creation Works"" + 5 numbered circles (1–5) each with a title and description,,Not Executed
+TC-AG-015,Five step titles match: Choose Template / Select Model / Write System Prompt / Connect Tools / Deploy & Monitor,UI,"1. Navigate to /agents
+2. Observe each step in the how-it-works section",,Step titles are exactly: ""Choose Template"" / ""Select Model"" / ""Write System Prompt"" / ""Connect Tools"" / ""Deploy & Monitor"",,Not Executed
+TC-AG-016,Step numbers render as blue filled circles,UI,"1. Navigate to /agents
+2. Observe the step number indicators",,Each step has a 36×36 circular blue background with white bold step number,,Not Executed
+TC-AG-017,""+ Create Agent"" button opens the wizard modal,Frontend,"1. Navigate to /agents
+2. Click ""+ Create Agent""",,Wizard modal opens with dark overlay; header shows ""Agent Creation Wizard"",,Not Executed
+TC-AG-018,Clicking ""Use Template ->"" on a card opens wizard with that template pre-filled,Frontend,"1. Navigate to /agents
+2. Click ""Use Template ->"" on any template card",,Wizard opens; Step 1 shows the template name pre-filled in Agent Name input and a template info card below,,Not Executed
+TC-AG-019,Wizard header shows title ""Agent Creation Wizard"",UI,"1. Open the wizard via any entry point
+2. Observe modal header",,Header reads ""Agent Creation Wizard"" in Syne bold font,,Not Executed
+TC-AG-020,Wizard header shows current step as ""Step {N} of {total}: {step label}"",UI,"1. Open the wizard
+2. Observe the subtitle in modal header",,Text reads ""Step 1 of {total}: {first step label}"",,Not Executed
+TC-AG-021,Wizard renders a progress bar with one segment per step,UI,"1. Open the wizard
+2. Observe the bar below the header",,A row of equal-width segments is shown; active and past segments are blue; future segments are gray (border2),,Not Executed
+TC-AG-022,Step 1 progress bar shows only first segment filled,UI,"1. Open the wizard
+2. Observe the progress bar on Step 1",,First segment is blue; all remaining segments are gray,,Not Executed
+TC-AG-023,Step 1 heading reads ""Name Your Agent"",UI,"1. Open the wizard",,H3 ""Name Your Agent"" is visible in Step 1 content area,,Not Executed
+TC-AG-024,Step 1 agent name input is pre-filled with template name when opened via template,Frontend,"1. Click ""Use Template ->"" on a template card
+2. Observe Step 1 input value",,Agent name input contains the template's name as its pre-filled value,,Not Executed
+TC-AG-025,Step 1 shows template info card when opened via template,Frontend,"1. Click ""Use Template ->"" on a template card
+2. Observe Step 1 content below the input",,Blue-lt info card shows the template name (bold) and its description,,Not Executed
+TC-AG-026,Step 1 does not show template info card when opened via ""+ Create Agent"",Frontend,"1. Click ""+ Create Agent"" (no template selected)
+2. Observe Step 1 content",,No template info card is rendered; only the agent name input and heading are shown,,Not Executed
+TC-AG-027,Step 1 agent name input accepts free-text editing,Frontend,"1. Open the wizard
+2. Clear the agent name input
+3. Type a new name","Name: My Custom Bot",Input reflects the typed value,,Not Executed
+TC-AG-028,""Continue ->"" button advances wizard from Step 1 to Step 2,Frontend,"1. Open the wizard (Step 1)
+2. Click ""Continue ->""",,Wizard advances to Step 2; header updates to ""Step 2 of {total}""; progress bar fills second segment,,Not Executed
+TC-AG-029,""<- Back"" button is not shown on Step 1,UI,"1. Open the wizard
+2. Observe footer on Step 1",,No ""<- Back"" button is visible on Step 1,,Not Executed
+TC-AG-030,""<- Back"" button appears from Step 2 onward,UI,"1. Open the wizard
+2. Navigate to Step 2
+3. Observe footer",,""<- Back"" button is visible in the modal footer on Step 2 and all subsequent steps",,Not Executed
+TC-AG-031,""<- Back"" button returns to the previous step,Frontend,"1. Navigate to Step 3 in the wizard
+2. Click ""<- Back""",,Wizard goes back to Step 2; header and progress bar update accordingly,,Not Executed
+TC-AG-032,Step 2 heading reads ""Select AI Model"",UI,"1. Advance wizard to Step 2
+2. Observe content heading",,H3 ""Select AI Model"" is visible,,Not Executed
+TC-AG-033,Step 2 shows a scrollable list of up to 30 language models,UI,"1. Advance wizard to Step 2
+2. Observe model list",,Scrollable list (max-height 320px) with up to 30 models filtered to type ""language"",,Not Executed
+TC-AG-034,Step 2 each model row shows radio icon name org price and rating,UI,"1. Advance wizard to Step 2
+2. Observe any model row",,Row has: radio button + model icon + name (bold) + org | price (text3) + ""Rating {value}"",,Not Executed
+TC-AG-035,First capable model is pre-selected in Step 2,Frontend,"1. Open the wizard
+2. Navigate to Step 2",,The first model in the capableModels list has its radio checked and blue-lt background,,Not Executed
+TC-AG-036,Selected model row has blue border and blue-lt background,Frontend,"1. Advance wizard to Step 2
+2. Click a different model row",,Clicked model row gets blue border + blue-lt background; previously selected row reverts to default,,Not Executed
+TC-AG-037,Step 3 heading reads ""System Prompt"",UI,"1. Advance wizard to Step 3
+2. Observe content",,H3 ""System Prompt"" is visible,,Not Executed
+TC-AG-038,Step 3 textarea is pre-filled with generated prompt when started from a template,Frontend,"1. Open wizard via ""Use Template ->"" on a template
+2. Navigate to Step 3",,Textarea contains ""You are a {template.name}. {template.desc}\n\nBe helpful, concise, and professional. Always stay within your defined scope."",,Not Executed
+TC-AG-039,Step 3 textarea is editable and accepts free-text changes,Frontend,"1. Navigate to Step 3
+2. Clear the textarea
+3. Type a custom prompt","Prompt: Always respond in bullet points",Textarea reflects the typed value,,Not Executed
+TC-AG-040,Step 3 textarea has a tip text below it,UI,"1. Navigate to Step 3
+2. Observe text below textarea",,Text ""Tip: Be specific about what the agent should and should not do."" is visible,,Not Executed
+TC-AG-041,Step 4 heading reads ""Connect Tools"",UI,"1. Advance wizard to Step 4
+2. Observe content heading",,H3 ""Connect Tools"" is visible,,Not Executed
+TC-AG-042,Step 4 shows 6 tool options with checkboxes,UI,"1. Navigate to Step 4
+2. Count tool rows",,Six rows visible: Web Search / Database Lookup / Email Send / Calendar Access / Slack Integration / Custom API,,Not Executed
+TC-AG-043,Every tool row shows ""Coming soon"" label,UI,"1. Navigate to Step 4
+2. Observe each tool row",,""Coming soon"" text appears at the right of every tool row",,Not Executed
+TC-AG-044,Step 5 heading reads ""Review & Deploy"",UI,"1. Advance wizard to Step 5
+2. Observe content heading",,H3 ""Review & Deploy"" is visible,,Not Executed
+TC-AG-045,Step 5 summary shows Agent Name Model Provider and Context rows,UI,"1. Navigate to Step 5
+2. Observe the summary list",,Four rows with keys: ""Agent Name"" / ""Model"" / ""Provider"" / ""Context"" each showing the configured value,,Not Executed
+TC-AG-046,Step 5 summary reflects the name entered in Step 1,Frontend,"1. Enter a custom name in Step 1
+2. Navigate to Step 5","Name: My Bot",Agent Name row in summary shows ""My Bot"",,Not Executed
+TC-AG-047,Step 5 summary reflects the model selected in Step 2,Frontend,"1. Select a specific model in Step 2
+2. Navigate to Step 5",,Model row shows the selected model's icon and name,,Not Executed
+TC-AG-048,Step 5 shows a teal ""Ready"" info box,UI,"1. Navigate to Step 5
+2. Observe below the summary",,Teal-colored box with text ""Ready: Your agent configuration is ready. Click 'Deploy Agent' to make it live."" is visible,,Not Executed
+TC-AG-049,Step 5 shows ""Deploy Agent"" button instead of ""Continue ->"",UI,"1. Navigate to the last wizard step
+2. Observe the footer button",,""Deploy Agent"" (teal filled) is shown instead of ""Continue ->""; Back button is still present",,Not Executed
+TC-AG-050,""Deploy Agent"" closes the wizard and navigates to /chat?agent=new,Frontend,"1. Navigate to Step 5
+2. Click ""Deploy Agent""",,Wizard modal closes and browser navigates to /chat?agent=new,,Not Executed
+TC-AG-051,× button closes the wizard modal from any step,Frontend,"1. Open the wizard
+2. Navigate to any step
+3. Click the × button in the header",,Wizard closes; page returns to the agents page with no modal,,Not Executed
+TC-AG-052,Closing the wizard does not reset the page content,Frontend,"1. Open the wizard
+2. Click × to close",,Agent templates grid and how-it-works section remain fully visible after closing,,Not Executed
+TC-AG-053,Progress bar fills segments incrementally as steps advance,Frontend,"1. Open the wizard
+2. Click Continue through each step
+3. Observe the bar",,Each Continue click fills one more segment blue; on Step 5 all segments are blue,,Not Executed
+TC-AG-054,Wizard modal content area is scrollable when content overflows,UI,"1. Navigate to Step 2 (model list)
+2. Observe model list scroll behavior",,Model list scrolls independently (max-height 320px) without the modal itself resizing,,Not Executed
+TC-AG-055,Step 3 textarea is vertically resizable,UI,"1. Navigate to Step 3
+2. Drag the textarea resize handle",,Textarea height changes when resized (resize:vertical); horizontal resize is blocked,,Not Executed

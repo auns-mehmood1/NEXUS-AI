@@ -1,0 +1,106 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-MP-001,Loading state shows ""Loading marketplace..."" while data fetches,UI,"1. Navigate to /marketplace
+2. Observe before models load",,Centered text ""Loading marketplace..."" is displayed while modelsLoading or contentLoading is true,,Not Executed
+TC-MP-002,Page header renders H1 ""AI Model Marketplace"",UI,"1. Navigate to /marketplace
+2. Observe the top header section",,H1 ""AI Model Marketplace"" is visible in bold Syne font,,Not Executed
+TC-MP-003,Header subtitle shows model count dynamically,UI,"1. Navigate to /marketplace
+2. Observe the subtitle below H1",,Subtitle reads ""Discover and compare {N}+ AI models from leading providers"" where N matches the loaded catalog count,,Not Executed
+TC-MP-004,Type filter chip bar renders with FILTER label and chips,UI,"1. Navigate to /marketplace
+2. Observe the row below the header",,""FILTER:"" label followed by horizontally scrollable type chip buttons is visible",,Not Executed
+TC-MP-005,Active type chip has accent background and white text,UI,"1. Navigate to /marketplace
+2. Observe the initially selected type chip",,Active chip has accent background + white text + accent border; inactive chips have bg + text2,,Not Executed
+TC-MP-006,Left sidebar renders four filter sections,UI,"1. Navigate to /marketplace
+2. Observe the left sidebar (240px)",,Four sections visible: Search / Sort By / Provider / Min Rating / Max Price,,Not Executed
+TC-MP-007,Search input renders with placeholder ""Model name or keyword..."",UI,"1. Navigate to /marketplace
+2. Observe the Search section in the sidebar",,Input field visible with placeholder ""Model name or keyword...""",,Not Executed
+TC-MP-008,Sort By section shows three radio options,UI,"1. Navigate to /marketplace
+2. Observe the Sort By section in the sidebar",,Three radio buttons visible: ""Top Rated"" / ""Lowest Price"" / ""Most Reviews"",,Not Executed
+TC-MP-009,""Top Rated"" sort is selected by default,UI,"1. Navigate to /marketplace
+2. Observe Sort By radio state",,""Top Rated"" radio button is checked on initial load",,Not Executed
+TC-MP-010,Provider section lists ""All"" plus all unique provider labs,UI,"1. Navigate to /marketplace
+2. Observe Provider section in sidebar",,""All"" is first; remaining labs are listed as radio buttons sorted alphabetically",,Not Executed
+TC-MP-011,""All"" provider radio is selected by default,UI,"1. Navigate to /marketplace
+2. Observe Provider radio state",,"Radio ""All"" is checked on initial load",,Not Executed
+TC-MP-012,Min Rating slider renders from 0 to 5 with step 0.1,UI,"1. Navigate to /marketplace
+2. Observe Min Rating section",,Range input with min=0 max=5 step=0.1 is visible; label reads ""Min Rating: 0.0"" by default,,Not Executed
+TC-MP-013,Max Price slider renders from 0 to 20 with step 0.5,UI,"1. Navigate to /marketplace
+2. Observe Max Price section",,Range input with min=0 max=20 step=0.5 visible; label reads ""Max Price: $20/1M tk"" by default,,Not Executed
+TC-MP-014,Result count label shows ""{N} models found"",UI,"1. Navigate to /marketplace
+2. Observe label above the model grid",,Label reads ""{N} models found"" where N matches the filtered result count,,Not Executed
+TC-MP-015,Model grid uses auto-fill layout with min card width 280px,UI,"1. Navigate to /marketplace
+2. Observe the card grid layout",,Cards are arranged in auto-fill grid columns; each card is at least 280px wide,,Not Executed
+TC-MP-016,Each model card shows icon name org rating description tags price and reviews,UI,"1. Navigate to /marketplace
+2. Observe any model card",,Card contains: colored icon / model name + badge / org / rating / truncated description / up to 3 tags / price / review count,,Not Executed
+TC-MP-017,Model description is truncated to 85 characters with ellipsis,UI,"1. Navigate to /marketplace
+2. Find a model with a long description",,Description text is cut at 85 chars and ends with ""..."",,Not Executed
+TC-MP-018,Each card shows Details and Use in Chat buttons,UI,"1. Navigate to /marketplace
+2. Observe card footer buttons",,Two buttons visible per card: ""Details"" (outlined) and ""Use in Chat"" (accent filled),,Not Executed
+TC-MP-019,Grid shows at most 100 cards regardless of total results,UI,"1. Navigate to /marketplace with no filters
+2. Count visible cards",,Maximum of 100 model cards are rendered in the grid,,Not Executed
+TC-MP-020,""Showing 100 of N"" message appears when results exceed 100,UI,"1. Navigate to /marketplace
+2. Ensure filters return more than 100 results",,Text ""Showing 100 of {N} models. Use filters to narrow results."" appears below the grid,,Not Executed
+TC-MP-021,Typing in search input filters cards by model name,Frontend,"1. Navigate to /marketplace
+2. Type a known model name in Search",Search: ""claude"",Only cards whose name contains ""claude"" (case-insensitive) are shown; result count updates,,Not Executed
+TC-MP-022,Search input filters by model description keyword,Frontend,"1. Navigate to /marketplace
+2. Type a keyword that appears in model descriptions",Search: ""vision"",Cards whose description contains ""vision"" are shown; others are hidden,,Not Executed
+TC-MP-023,Search input filters by org/provider name,Frontend,"1. Navigate to /marketplace
+2. Type a provider name in Search",Search: ""Anthropic"",Cards whose org matches ""Anthropic"" are shown,,Not Executed
+TC-MP-024,Search is case-insensitive,Frontend,"1. Navigate to /marketplace
+2. Type the same term in upper and lower case","Search: ""GPT"" then ""gpt""",Both searches return the same set of cards,,Not Executed
+TC-MP-025,Clearing search input restores all models,Frontend,"1. Navigate to /marketplace
+2. Type in Search
+3. Clear the field",,All models (subject to other filters) are shown after clearing search,,Not Executed
+TC-MP-026,No results shows ""0 models found"" in result count,Frontend,"1. Navigate to /marketplace
+2. Type a search term with no matches",Search: ""zzznomatch999"","Label reads ""0 models found""; grid is empty",,Not Executed
+TC-MP-027,Clicking a type chip filters models to that type,Frontend,"1. Navigate to /marketplace
+2. Click any non-""All"" type chip",,Only models whose types array includes the selected chip key are shown; result count updates,,Not Executed
+TC-MP-028,Clicking the active type chip again does not deactivate it,Frontend,"1. Navigate to /marketplace
+2. Click the currently active type chip",,Chip remains active; filter remains applied,,Not Executed
+TC-MP-029,Selecting a provider radio filters models to that lab,Frontend,"1. Navigate to /marketplace
+2. Select a specific provider radio in the sidebar",,Only models with lab matching the selected provider are shown,,Not Executed
+TC-MP-030,Selecting ""All"" provider radio restores all providers,Frontend,"1. Navigate to /marketplace
+2. Select a provider radio
+3. Select ""All""",,Provider filter is cleared; models from all labs are shown again,,Not Executed
+TC-MP-031,Min Rating slider updates label live as slider moves,Frontend,"1. Navigate to /marketplace
+2. Drag Min Rating slider to 3.5",,Label updates to ""Min Rating: 3.5"" as slider is dragged,,Not Executed
+TC-MP-032,Min Rating filter hides models below the selected rating,Frontend,"1. Navigate to /marketplace
+2. Set Min Rating slider to 4.5",,Only models with rating >= 4.5 are shown; lower-rated models are hidden,,Not Executed
+TC-MP-033,Max Price slider updates label live as slider moves,Frontend,"1. Navigate to /marketplace
+2. Drag Max Price slider to 5.0",,Label updates to ""Max Price: $5/1M tk"" as slider is dragged,,Not Executed
+TC-MP-034,Max Price filter hides paid models above the selected price,Frontend,"1. Navigate to /marketplace
+2. Set Max Price slider to $2",Max Price: 2,Models with price_start > 2 are hidden; models with price_start = 0 (free) always remain,,Not Executed
+TC-MP-035,Free models (price_start = 0) are never filtered out by Max Price slider,Frontend,"1. Navigate to /marketplace
+2. Set Max Price slider to $0",,Models with price_start = 0 still appear in results regardless of Max Price value,,Not Executed
+TC-MP-036,Selecting ""Top Rated"" sort orders cards by rating descending,Frontend,"1. Navigate to /marketplace
+2. Select ""Top Rated"" radio
+3. Observe card order",,Cards are ordered from highest rating to lowest,,Not Executed
+TC-MP-037,Selecting ""Lowest Price"" sort orders cards by price ascending,Frontend,"1. Navigate to /marketplace
+2. Select ""Lowest Price"" radio",,Cards are ordered from lowest price_start to highest,,Not Executed
+TC-MP-038,Selecting ""Most Reviews"" sort orders cards by reviews descending,Frontend,"1. Navigate to /marketplace
+2. Select ""Most Reviews"" radio",,Cards are ordered from most reviews to fewest,,Not Executed
+TC-MP-039,Multiple filters combine with AND logic,Frontend,"1. Navigate to /marketplace
+2. Set Provider to a specific lab
+3. Set Min Rating to 4.0
+4. Type a keyword in Search","Provider: Anthropic, Rating: 4.0, Search: vision",Only cards matching all three conditions simultaneously are shown,,Not Executed
+TC-MP-040,""Use in Chat"" card button navigates to /chat?model={id},Frontend,"1. Navigate to /marketplace
+2. Click ""Use in Chat"" on any model card",,Browser navigates to /chat?model={model.id} for the clicked card,,Not Executed
+TC-MP-041,""Details"" card button opens model modal,Frontend,"1. Navigate to /marketplace
+2. Click ""Details"" on any model card",,Modal appears centered with backdrop overlay; shows selected model details,,Not Executed
+TC-MP-042,Modal header shows icon name org context and tags,UI,"1. Navigate to /marketplace
+2. Open model modal via Details button",,Modal header contains: 52×52 icon / model name / ""by {org} | {context}"" / badge / up to 4 tags / × button,,Not Executed
+TC-MP-043,Modal renders four tabs: Overview Pricing Reviews How to Use,UI,"1. Navigate to /marketplace
+2. Open any model modal",,Four tab buttons visible: Overview / Pricing / Reviews / How to Use; Overview is active by default,,Not Executed
+TC-MP-044,Overview tab shows full description and 6-stat grid,UI,"1. Open model modal
+2. Ensure Overview tab is active",,Full description text + 3-column grid with Rating / Reviews / Context / Pricing / Provider / Types,,Not Executed
+TC-MP-045,Pricing tab shows price card and description text,UI,"1. Open model modal
+2. Click Pricing tab",,Accent-lt price card with ""per 1M tokens (blended)"" label + pricing description paragraph is shown,,Not Executed
+TC-MP-046,Reviews tab shows three review cards with user rating and text,UI,"1. Open model modal
+2. Click Reviews tab",,Three review cards visible: Developer / Data Scientist / Product Manager each with rating and review text,,Not Executed
+TC-MP-047,How to Use tab shows API code snippet,UI,"1. Open model modal
+2. Click How to Use tab",,Code block showing POST /api/chat/send with modelId pre-filled for the selected model is visible,,Not Executed
+TC-MP-048,Clicking the backdrop overlay closes the modal,Frontend,"1. Open model modal
+2. Click outside the modal (on the dark overlay)",,Modal closes; overlay disappears,,Not Executed
+TC-MP-049,Clicking × button closes the modal,Frontend,"1. Open model modal
+2. Click the × button in modal header",,Modal closes,,Not Executed
+TC-MP-050,""Use in Chat Hub ->"" in modal footer navigates to /chat?model={id} and closes modal,Frontend,"1. Open model modal
+2. Click ""Use in Chat Hub ->"" button in modal footer",,Modal closes and browser navigates to /chat?model={selectedModel.id},,Not Executed

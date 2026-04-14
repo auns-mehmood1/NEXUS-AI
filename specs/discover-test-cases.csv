@@ -1,0 +1,105 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-DI-001,Loading state shows ""Loading discoveries..."" while data fetches,UI,"1. Navigate to /discover
+2. Observe before models load",,Centered text ""Loading discoveries..."" is displayed while modelsLoading or contentLoading is true,,Not Executed
+TC-DI-002,Hero section renders with teal-to-white gradient background,UI,"1. Navigate to /discover
+2. Observe the top hero section",,Hero area has a linear-gradient from teal-lt to white with a bottom border,,Not Executed
+TC-DI-003,Live badge renders with pulsing teal dot and ""Updated daily | Latest AI releases"" text,UI,"1. Navigate to /discover
+2. Observe the pill badge above the H1",,Teal-bordered pill with animated pulsing dot and text ""Updated daily | Latest AI releases"" is visible,,Not Executed
+TC-DI-004,H1 renders ""Discover New Models"" with ""New Models"" in teal color,UI,"1. Navigate to /discover
+2. Observe the H1 heading",,H1 reads ""Discover New Models""; the words ""New Models"" are rendered in teal color,,Not Executed
+TC-DI-005,H1 font size is responsive using clamp(2rem 4vw 3.5rem),UI,"1. Navigate to /discover
+2. Resize the browser window",,H1 font size scales fluidly between 2rem and 3.5rem based on viewport width,,Not Executed
+TC-DI-006,Hero subtitle renders correct descriptive text,UI,"1. Navigate to /discover
+2. Observe paragraph below H1",,Text ""Stay ahead with the latest AI model releases. From frontier reasoning to specialized tools."" is visible,,Not Executed
+TC-DI-007,Category filter chip bar renders below the hero section,UI,"1. Navigate to /discover
+2. Observe the sticky bar below the hero",,A white bar with horizontally scrollable category chip buttons is visible below the hero,,Not Executed
+TC-DI-008,""All"" category chip is active by default with teal style,UI,"1. Navigate to /discover
+2. Observe category chips",,""All"" chip has teal background + white text + teal border; other chips have bg + text2 style",,Not Executed
+TC-DI-009,Active category chip has teal background and white text,UI,"1. Navigate to /discover
+2. Click any non-All category chip",,Clicked chip shows teal background + white text; previously active chip reverts to inactive style,,Not Executed
+TC-DI-010,""Newly Released"" section heading shows filtered model count,UI,"1. Navigate to /discover
+2. Observe the section heading above the new models grid",,H2 reads ""Newly Released | {N} models"" where N equals the count of filtered new models,,Not Executed
+TC-DI-011,Newly Released grid uses auto-fill layout with min card width 320px,UI,"1. Navigate to /discover
+2. Observe the Newly Released card grid",,Cards arranged in auto-fill columns with minmax(320px 1fr); responsive to viewport,,Not Executed
+TC-DI-012,Each new model card shows icon name new badge org rating,UI,"1. Navigate to /discover
+2. Observe any card in the Newly Released section",,44×44 icon + model name (Syne bold) + ""new"" badge + org label + ""Rating {value}"" are all visible,,Not Executed
+TC-DI-013,Every new model card always shows a ""new"" badge,UI,"1. Navigate to /discover
+2. Inspect all cards in Newly Released section",,Every card in the Newly Released grid has the ""new"" badge (badge-new class) regardless of category filter,,Not Executed
+TC-DI-014,New model card shows full description text (not truncated),UI,"1. Navigate to /discover
+2. Inspect the description paragraph on any new model card",,Full model description is rendered without truncation (unlike marketplace 85-char limit),,Not Executed
+TC-DI-015,New model card shows up to 4 tags as chips,UI,"1. Navigate to /discover
+2. Observe tag chips on any new model card",,Up to 4 tag chips are shown per card with bg2 background and pill style,,Not Executed
+TC-DI-016,New model card shows price in accent color,UI,"1. Navigate to /discover
+2. Observe the price element on any new model card",,Price text is rendered in accent color with bold weight,,Not Executed
+TC-DI-017,New model card shows Details and Try Now buttons,UI,"1. Navigate to /discover
+2. Observe card footer buttons",,Two buttons per card: ""Details"" (bg2/outlined) and ""Try Now"" (teal filled / white text),,Not Executed
+TC-DI-018,Newly Released section shows at most 20 models,UI,"1. Navigate to /discover
+2. Count cards in the Newly Released grid with All category selected",,Maximum of 20 new model cards are rendered,,Not Executed
+TC-DI-019,""Trending This Week"" section heading is visible,UI,"1. Navigate to /discover
+2. Scroll to the bottom section",,H2 ""Trending This Week"" is visible below the Newly Released grid,,Not Executed
+TC-DI-020,Trending section grid uses auto-fill layout with min card width 280px,UI,"1. Navigate to /discover
+2. Observe the Trending grid layout",,Cards are in auto-fill columns with minmax(280px 1fr),,Not Executed
+TC-DI-021,Trending section shows at most 6 models,UI,"1. Navigate to /discover
+2. Count cards in Trending This Week section",,Maximum of 6 trending model cards are rendered,,Not Executed
+TC-DI-022,Each trending card shows icon name price rating and Try button,UI,"1. Navigate to /discover
+2. Observe any trending card",,Card shows: 40×40 icon + model name (bold) + ""{price} | Rating {rating}"" + ""Try"" button,,Not Executed
+TC-DI-023,Trending cards source only models with badge = ""hot"",UI,"1. Navigate to /discover
+2. Inspect trending cards
+3. Verify each has a hot badge origin",,All models in Trending section have badge=""hot"" in the catalog,,Not Executed
+TC-DI-024,Newly Released cards source only models with badge = ""new"",UI,"1. Navigate to /discover
+2. Inspect newly released cards",,All models in Newly Released section have badge=""new"" in the catalog,,Not Executed
+TC-DI-025,Clicking a category chip filters Newly Released cards,Frontend,"1. Navigate to /discover
+2. Click a non-All category chip",,Cards update to show only new models whose tags or types match the selected category,,Not Executed
+TC-DI-026,Category filter matches by tag (case-insensitive partial match),Frontend,"1. Navigate to /discover
+2. Click a category chip",,New models are included if any of their tags contain the category string (case-insensitive),,Not Executed
+TC-DI-027,Category filter also matches by model type,Frontend,"1. Navigate to /discover
+2. Click a category chip whose value matches a model type",,New models are included if their types array contains the category value (lowercased),,Not Executed
+TC-DI-028,Selecting ""All"" category chip shows all new models,Frontend,"1. Navigate to /discover
+2. Click a non-All chip to filter
+3. Click ""All""",,All new models (up to 20) are shown again; no category restriction applied,,Not Executed
+TC-DI-029,Switching category chip updates model count in section heading,Frontend,"1. Navigate to /discover
+2. Click a specific category chip
+3. Observe section heading",,""Newly Released | {N} models"" count updates to reflect filtered result count",,Not Executed
+TC-DI-030,Category chip with no matching new models shows 0 in heading,Frontend,"1. Navigate to /discover
+2. Click a category chip that matches no new models",,Section heading reads ""Newly Released | 0 models""; grid is empty,,Not Executed
+TC-DI-031,Trending section is not affected by category chip selection,Frontend,"1. Navigate to /discover
+2. Click any category chip
+3. Observe Trending section",,Trending This Week cards remain unchanged regardless of which category chip is active,,Not Executed
+TC-DI-032,""Details"" button on new model card navigates to /marketplace?model={id},Frontend,"1. Navigate to /discover
+2. Click ""Details"" on any new model card",,Browser navigates to /marketplace?model={model.id},,Not Executed
+TC-DI-033,""Try Now"" button on new model card navigates to /chat?model={id},Frontend,"1. Navigate to /discover
+2. Click ""Try Now"" on any new model card",,Browser navigates to /chat?model={model.id},,Not Executed
+TC-DI-034,""Try"" button on trending card navigates to /chat?model={id},Frontend,"1. Navigate to /discover
+2. Click ""Try"" on any trending card",,Browser navigates to /chat?model={model.id},,Not Executed
+TC-DI-035,""Try Now"" button has teal background and white text,UI,"1. Navigate to /discover
+2. Observe ""Try Now"" button on any new model card",,Button has teal background color and white text; rounded pill shape,,Not Executed
+TC-DI-036,""Try"" button on trending card has accent background and white text,UI,"1. Navigate to /discover
+2. Observe ""Try"" button on any trending card",,Button has accent (purple) background and white text; contrasts with new model ""Try Now"" teal,,Not Executed
+TC-DI-037,Category chip bar is horizontally scrollable when chips overflow,UI,"1. Navigate to /discover on a narrow viewport
+2. Observe the chip bar",,Chip bar scrolls horizontally without wrapping or clipping chips,,Not Executed
+TC-DI-038,Hero section is centered and constrained to max-width 800px,UI,"1. Navigate to /discover
+2. Observe hero content alignment",,Hero text content is centered and does not exceed 800px width,,Not Executed
+TC-DI-039,Page body content is constrained to max-width 1100px and centered,UI,"1. Navigate to /discover
+2. Observe the grid content area",,Newly Released and Trending sections are inside a max-width 1100px centered container,,Not Executed
+TC-DI-040,Trending section appears below the Newly Released grid with 3rem top margin,UI,"1. Navigate to /discover
+2. Scroll down past the new models grid",,Trending section starts with visible vertical spacing (3rem margin-top) below the grid,,Not Executed
+TC-DI-041,Trending card layout is horizontal (icon left content center Try right),UI,"1. Navigate to /discover
+2. Observe any trending card layout",,Trending card uses row flex: icon on left / name+price+rating in center / Try button on right,,Not Executed
+TC-DI-042,Newly Released grid cards stack vertically on narrow viewports,UI,"1. Navigate to /discover
+2. Resize viewport to mobile width (< 360px)",,Cards stack to single column when viewport is too narrow for minmax(320px 1fr),,Not Executed
+TC-DI-043,Page renders without error when no new models exist (empty Newly Released),Frontend,"1. Ensure no models have badge=""new"" in the catalog
+2. Navigate to /discover",,Newly Released section heading shows ""Newly Released | 0 models""; no crash or blank screen,,Not Executed
+TC-DI-044,Page renders without error when no hot models exist (empty Trending),Frontend,"1. Ensure no models have badge=""hot""
+2. Navigate to /discover",,Trending This Week section heading is visible but the grid is empty; no crash,,Not Executed
+TC-DI-045,Page title in browser tab matches the site-wide title,UI,"1. Navigate to /discover
+2. Check browser tab title",,Tab title reads ""NexusAI — AI Model Hub · Discover, Compare & Deploy"",,Not Executed
+TC-DI-046,Sticky navbar is present above the hero section,UI,"1. Navigate to /discover
+2. Observe the top of the page",,Site navbar (with NexusAI brand + nav links + Sign In + Get Started) is visible above the hero,,Not Executed
+TC-DI-047,Newly Released section heading persists as ""All"" on initial load,UI,"1. Navigate to /discover
+2. Check section heading immediately after load",,Heading shows ""Newly Released | {N} models"" with N equal to the full new models count,,Not Executed
+TC-DI-048,Multiple category clicks always update the grid correctly,Frontend,"1. Navigate to /discover
+2. Click category A then category B then category C rapidly",,Grid always reflects the last clicked category; no stale state shown,,Not Executed
+TC-DI-049,New model cards render with shadow and border,UI,"1. Navigate to /discover
+2. Inspect any new model card visually",,Cards have 1px var(--border) border + var(--shadow) box shadow + var(--radius) border-radius,,Not Executed
+TC-DI-050,Trending cards render with shadow and border,UI,"1. Navigate to /discover
+2. Inspect any trending card visually",,Trending cards have 1px border + shadow + consistent border-radius matching the design system,,Not Executed

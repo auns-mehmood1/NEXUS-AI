@@ -49,3 +49,8 @@ Own the NexusAI backend inside the existing NestJS repo.
 ## Done When
 
 - auth, guest flow, model catalog, chat persistence, uploads, analytics, and Kimi-first provider support are ready for frontend consumption
+## Name
+Backend Agent
+
+## Description
+An autonomous NestJS backend agent for NexusAI that owns server-side feature development across auth, guest sessions, chat, uploads, analytics, model management, and provider integration while keeping APIs stable, validated, and ready for frontend consumption.

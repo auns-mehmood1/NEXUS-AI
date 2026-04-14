@@ -1,0 +1,67 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-LG-001,Page title renders correctly in browser tab,UI,1. Navigate to /auth/login,,,"Tab title = ""NexusAI — AI Model Hub · Discover, Compare & Deploy""",Pass
+TC-LG-002,Page heading Welcome back is visible,UI,1. Navigate to /auth/login,,,"H1 text ""Welcome back"" is visible",Pass
+TC-LG-003,Subtitle Sign in to continue to NexusAI renders below heading,UI,1. Navigate to /auth/login,,,"Subtitle text ""Sign in to continue to NexusAI"" visible",Pass
+TC-LG-004,NexusAI hexagon logo icon renders above heading,UI,1. Navigate to /auth/login,,,44×44px accent-color hexagon icon renders centered above heading,Pass
+TC-LG-005,Form card renders with white background border and shadow,UI,1. Navigate to /auth/login,,,"Card has white background, 1px border, border-radius 16px and visible box shadow",Pass
+TC-LG-006,Sticky navbar is visible at the top of the page,UI,1. Navigate to /auth/login,,,Navbar position: sticky,Pass
+TC-LG-007,NexusAI brand name and logo render in navbar,UI,1. Navigate to /auth/login,,,"Hexagon icon and ""NexusAI"" text are both visible in the navbar",Pass
+TC-LG-008,Navbar displays all four navigation links,UI,1. Navigate to /auth/login,,,"Nav links: NexusAI, Chat Hub, Marketplace, Discover New, Agents, Sign In, Get Started",Pass
+TC-LG-009,Language selector button shows 🌐 EN with dropdown indicator,UI,1. Navigate to /auth/login,,,"Language button text: ""🌐 EN▼""",Pass
+TC-LG-010,Navbar Sign In button is visible with outlined style,UI,1. Navigate to /auth/login,,,"""Sign In"" button with border outline is visible in the navbar",Pass
+TC-LG-011,Navbar Get Started button is visible with accent fill,UI,1. Navigate to /auth/login,,,"""Get Started"" button with accent background is visible in the navbar",Pass
+TC-LG-012,Email field renders with correct label and placeholder,UI,1. Navigate to /auth/login,,,"Label: ""Email"", Placeholder: ""you@example.com""",Pass
+TC-LG-013,Password field renders with correct label and placeholder,UI,1. Navigate to /auth/login,,,"Label: ""Password"", Placeholder: ""••••••••""",Pass
+TC-LG-014,Sign In submit button renders full-width with accent background,UI,1. Navigate to /auth/login,,,"Submit button text=""Sign In"", bg=""rgb(91, 79, 233)""",Pass
+TC-LG-015,Don't have an account? Create one free text and link render,UI,1. Navigate to /auth/login,,,"""Don't have an account?"" present: true, link: ""Create one free""",Pass
+TC-LG-016,Continue as guest (3h session) link renders at card bottom,UI,1. Navigate to /auth/login,,,"Link ""Continue as guest (3h session)"" is visible",Pass
+TC-LG-017,Horizontal divider renders above guest link,UI,1. Navigate to /auth/login,,,Horizontal divider with border-top separates guest link from form,Pass
+TC-LG-018,Radial gradient background renders on the page,UI,1. Navigate to /auth/login,,,Radial gradient background is visible on the page,Pass
+TC-LG-019,Login page renders only two form fields (Email and Password),UI,1. Navigate to /auth/login,,,2 input fields found in the form,Pass
+TC-LG-020,Email field accepts typed input and reflects value,Frontend,1. Navigate to /auth/login,,,"Email field displays value ""user@test.com""",Pass
+TC-LG-021,Password field masks all typed characters,Frontend,1. Navigate to /auth/login,,,"Password input type=""password"" (characters masked)",Pass
+TC-LG-022,Email placeholder disappears when user starts typing,Frontend,1. Navigate to /auth/login,,,"After typing, placeholder hidden (value=""u"")",Pass
+TC-LG-023,Password placeholder disappears when user starts typing,Frontend,1. Navigate to /auth/login,,,"After typing, password placeholder hidden (value length=1)",Pass
+TC-LG-024,Submitting with empty Email triggers browser required validation,Frontend,1. Navigate to /auth/login,,,Email required=true; stayed on login: true,Pass
+TC-LG-025,Submitting with empty Password triggers browser required validation,Frontend,1. Navigate to /auth/login,,,Password required=true; stayed on login: true,Pass
+TC-LG-026,Submitting with both fields empty triggers browser required validation,Frontend,1. Navigate to /auth/login,,,"Both required (email=true, pw=true); stayed on login: true",Pass
+TC-LG-027,Submitting invalid email format blocked by browser,Frontend,1. Navigate to /auth/login,,,"Email ""notanemail"" validity.valid=false; stayed on login: true",Pass
+TC-LG-028,Email field with @ but no domain is rejected by browser,Frontend,1. Navigate to /auth/login,,,"Email ""user@"" validity.valid=false; stayed on login: true",Pass
+TC-LG-029,Login has no client-side password length validation,Frontend,1. Navigate to /auth/login,,,Password minLength=-1 (no client-side length restriction),Pass
+TC-LG-030,Error state is cleared at the start of each new submission,Frontend,1. Trigger an API error to show error box,,,Error visible after wrong login: true; clears on new submission,Pass
+TC-LG-031,Submit button shows Signing in... text during API call,Frontend,1. Fill valid Email and Password,,,"Loading text captured: ""Signing in...""; final URL: http://localhost:3000/dashboard",Pass
+TC-LG-032,Submit button is disabled during loading state,Frontend,1. Fill valid Email and Password,,,Button disabled during loading: true,Pass
+TC-LG-033,Submit button background changes to gray during loading,Frontend,1. Fill valid Email and Password,,,"Button background during loading: ""rgba(91, 79, 233, 0.18)""",Pass
+TC-LG-034,Submit button text color changes to muted during loading,Frontend,1. Fill valid Email and Password,,,"Button text color during loading: ""rgb(139, 144, 184)""",Pass
+TC-LG-035,Cursor shows not-allowed on submit button during loading,Frontend,1. Fill valid Email and Password,,,"Button cursor during loading: ""not-allowed""",Pass
+TC-LG-036,Successful login redirects to /dashboard,Integration,1. Fill form with valid registered credentials,,,Redirected to: http://localhost:3000/dashboard,Pass
+TC-LG-037,Auth tokens stored in auth store after successful login,Integration,1. Fill form with valid credentials,,,"Tokens in store: [{""key"":""nexus_refresh_token"",""val"":""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ""},{""key"":""nexus_access_token"",""val"":""eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ",Pass
+TC-LG-038,Guest session is migrated on successful login when guestId exists,Integration,1. Visit /chat to create a guest session (guestId in localStorage),,,"After login, guestId=fake-guest-123; URL: http://localhost:3000/dashboard",Pass
+TC-LG-039,Login proceeds without error when no guest session exists,Integration,1. Ensure localStorage has no guest session,,,Login without guest session; redirected to: http://localhost:3000/dashboard,Pass
+TC-LG-040,Guest migration failure does not block login or redirect,Integration,1. Create a guest session in localStorage,,,Login with guestId set; redirected to: http://localhost:3000/dashboard,Pass
+TC-LG-041,API error with message field shows that server message in error box,Integration,1. Submit login with wrong password,,,"Error box displays: ""Invalid credentials""",Pass
+TC-LG-042,Fallback error message shown when API response has no message field,Integration,1. Simulate API 500 response with no message field,,,Error message shown: fallback or server message,Pass
+TC-LG-043,Error message box renders in a styled rose/red box,Integration,1. Submit login with wrong credentials,,,"Error element: text=""Invalid credentials"", color=""rgb(220, 38, 38)"", bg=""rgba(0, 0, 0, 0)""",Pass
+TC-LG-044,Error message appears above the Sign In button,Integration,1. Trigger an API error,,,"Error el bottom=572, btn top=588, DOM before btn: true, visually above btn: true",Pass
+TC-LG-045,Submit button reverts to Sign In and re-enables after API error,Integration,1. Submit login with invalid credentials,,,"Button after error: text=""Sign In"", disabled=false",Pass
+TC-LG-046,Email field retains value after a failed login attempt,Integration,1. Enter Email and Password,,,"Email field value after error: ""wrong@test.com""",Pass
+TC-LG-047,Create one free link in footer navigates to /auth/signup,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/auth/signup,Pass
+TC-LG-048,Continue as guest (3h session) link navigates to /chat,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/chat,Pass
+TC-LG-049,NexusAI logo in navbar navigates to homepage,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/,Pass
+TC-LG-050,Navbar Sign In button navigates to /auth/login (stays on page),UI,1. Navigate to /auth/login,,,"Error: locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('nav a:has-text(""Sign In"")')[22m
+",Fail
+TC-LG-051,Navbar Get Started button navigates to /auth/signup,UI,1. Navigate to /auth/login,,,"Error: locator.click: Timeout 30000ms exceeded.
+Call log:
+[2m  - waiting for locator('nav a:has-text(""Get Started"")')[22m
+",Fail
+TC-LG-052,Navbar Chat Hub link navigates to /chat,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/chat,Pass
+TC-LG-053,Navbar Marketplace link navigates to /marketplace,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/marketplace,Pass
+TC-LG-054,Navbar Discover New link navigates to /discover,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/discover,Pass
+TC-LG-055,Navbar Agents link navigates to /agents,UI,1. Navigate to /auth/login,,,Navigated to: http://localhost:3000/agents,Pass
+TC-LG-056,Email field is of type email (not text),Frontend,1. Navigate to /auth/login,,,"Email input type=""email""",Pass
+TC-LG-057,Password field is of type password (not text),Frontend,1. Navigate to /auth/login,,,"Password input type=""password""",Pass
+TC-LG-058,Both form fields have the required attribute,Frontend,1. Navigate to /auth/login,,,"Email required=true, Password required=true",Pass
+TC-LG-059,Form does not navigate away from page on submission (preventDefault),Frontend,1. Navigate to /auth/login,,,"SPA navigation: before=true, 500ms after still on login: false",Pass
+TC-LG-060,Email field accepts address with subdomain format,Frontend,1. Navigate to /auth/login,,,"Subdomain email value=""user@mail.subdomain.com"", validity.valid=true",Pass

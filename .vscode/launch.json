@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run signup automation",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/scripts/automation/run-signup-automation.mjs",
+      "cwd": "${workspaceFolder}",
+      "console": "integratedTerminal"
+    }
+  ]
+}
+

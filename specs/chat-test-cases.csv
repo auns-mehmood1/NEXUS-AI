@@ -1,0 +1,196 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-CH-001,Page renders 3-column layout (left sidebar / chat / right panel),UI,"1. Navigate to /chat
+2. Observe overall page structure",,Three distinct columns visible: model list (260px) / chat area (flex) / details panel (280px),,Not Executed
+TC-CH-002,Loading state renders ""Loading Chat Hub..."" while models load,UI,"1. Navigate to /chat
+2. Observe page before models finish loading",,Full-page centered text ""Loading Chat Hub..."" is shown while modelsLoading or contentLoading is true,,Not Executed
+TC-CH-003,Left sidebar has a model search input with correct placeholder,UI,"1. Navigate to /chat
+2. Observe top of left sidebar",,Search input visible with placeholder ""Search 400+ models...""",,Not Executed
+TC-CH-004,Left sidebar renders a scrollable list of models,UI,"1. Navigate to /chat
+2. Scroll the left sidebar model list",,List of models renders with overflow scroll; up to 200 models shown,,Not Executed
+TC-CH-005,Each model row shows icon name lab and optional badge,UI,"1. Navigate to /chat
+2. Observe any model row in the left sidebar",,Row contains: colored icon / model name / lab name / badge (if present),,Not Executed
+TC-CH-006,Active model is highlighted with accent border and background,UI,"1. Navigate to /chat
+2. Observe the currently selected model in the list",,Active model row has a 3px left accent-color border and accent-lt background,,Not Executed
+TC-CH-007,Empty chat state shows model icon heading and description,UI,"1. Navigate to /chat
+2. Observe center column with no messages",,Model icon (large) + ""Chat with {model.name}"" heading + model description paragraph are centered,,Not Executed
+TC-CH-008,Input textarea renders with correct placeholder,UI,"1. Navigate to /chat
+2. Observe the bottom input area",,Textarea placeholder reads ""Message {activeModel.name}...""",,Not Executed
+TC-CH-009,Active model name badge renders inside the input bar,UI,"1. Navigate to /chat
+2. Observe right side of the input bar",,Small chip showing active model name is visible inside the input bar,,Not Executed
+TC-CH-010,Input toolbar renders all action buttons,UI,"1. Navigate to /chat
+2. Count icon buttons in the input bar toolbar",,Seven icon buttons visible: Sparkles / Mic / Speaker / Waveform / Camera / Video / Paperclip,,Not Executed
+TC-CH-011,Go send button renders as a circle on the right of the input bar,UI,"1. Navigate to /chat
+2. Observe the send button",,Round ""Go"" button (34×34) is visible at far right of input bar,,Not Executed
+TC-CH-012,Right panel shows active model card with icon name and org,UI,"1. Navigate to /chat
+2. Observe top of right sidebar",,Model icon (42×42) + model name (Syne font bold) + org label visible in right panel,,Not Executed
+TC-CH-013,Right panel shows model stats grid (Context Rating Price Reviews),UI,"1. Navigate to /chat
+2. Observe model stats section in right panel",,2×2 grid with four stats: Context / Rating / Pricing / Reviews is visible,,Not Executed
+TC-CH-014,Right panel shows Usage Overview section with sparkline bars,UI,"1. Navigate to /chat
+2. Observe Usage Overview section in right panel",,""Usage Overview"" heading + 24 vertical accent bars + Requests / Replies / Files counts visible",,Not Executed
+TC-CH-015,Right panel shows Quick Actions section with grouped buttons,UI,"1. Navigate to /chat
+2. Observe Quick Actions section in right panel",,""Quick Actions"" heading with grouped action buttons visible; each group has a title",,Not Executed
+TC-CH-016,Guest banner is shown for guest users with remaining time,UI,"1. Navigate to /chat without logging in
+2. Observe top of center column",,Banner visible: ""Guest session - {time} remaining"" with ""Save permanently ->"" button,,Not Executed
+TC-CH-017,Guest banner ""Save permanently"" button links to /auth/signup,UI,"1. Navigate to /chat as guest
+2. Click ""Save permanently ->"" button in guest banner",,Browser navigates to /auth/signup,,Not Executed
+TC-CH-018,Guest banner is not visible for authenticated users,UI,"1. Log in
+2. Navigate to /chat
+3. Observe center column top",,No guest banner is rendered for authenticated users,,Not Executed
+TC-CH-019,Typing a keyword in model search filters the model list,Frontend,"1. Navigate to /chat
+2. Type a model name keyword in the search input",Search: ""claude"",Only models whose name or lab includes ""claude"" (case-insensitive) are shown in the list,,Not Executed
+TC-CH-020,Clearing model search restores the full model list,Frontend,"1. Navigate to /chat
+2. Type in search input
+3. Clear the input",Search: ""gpt"" then cleared,Full model list is restored after clearing the search field,,Not Executed
+TC-CH-021,Searching with no matching term shows an empty model list,Frontend,"1. Navigate to /chat
+2. Type a term with no matches",Search: ""zzznomatch999"",Model list renders with no rows,,Not Executed
+TC-CH-022,Clicking a model in the list sets it as the active model,Frontend,"1. Navigate to /chat
+2. Click any non-active model in the left sidebar",,Clicked model becomes active: gets accent border + highlighted background; right panel updates to show its details,,Not Executed
+TC-CH-023,Switching active model updates input textarea placeholder,Frontend,"1. Navigate to /chat
+2. Click a different model in the left sidebar",,Textarea placeholder updates to ""Message {newModel.name}..."",,Not Executed
+TC-CH-024,Switching active model updates model badge chip in input bar,Frontend,"1. Navigate to /chat
+2. Click a different model",,Model name chip in input bar updates to reflect the newly selected model,,Not Executed
+TC-CH-025,Switching active model updates right panel model details,Frontend,"1. Navigate to /chat
+2. Click a different model",,Right panel shows new model's icon / name / org / tags / description / stats,,Not Executed
+TC-CH-026,Go button is disabled (gray) when input is empty and no attachments,Frontend,"1. Navigate to /chat
+2. Observe Go button with empty textarea and no attachments",,Go button has gray background (var(--border2)) and cursor:default; disabled attribute is set,,Not Executed
+TC-CH-027,Go button becomes active (accent) when input has text,Frontend,"1. Navigate to /chat
+2. Type any text in the textarea",,Go button background changes to accent color and becomes clickable,,Not Executed
+TC-CH-028,User message appears in chat with accent bubble right-aligned,Frontend,"1. Navigate to /chat
+2. Type ""Hello"" and click Go or press Enter",Message: Hello,User message bubble appears on the right side with accent background and white text,,Not Executed
+TC-CH-029,Sending a message clears the input textarea,Frontend,"1. Navigate to /chat
+2. Type a message and send it",Message: Hello,Input textarea is empty after message is sent,,Not Executed
+TC-CH-030,Sending a message closes the prompt suggestions panel,Frontend,"1. Navigate to /chat
+2. Ensure CPanel is open
+3. Send a message",Message: Hello,CPanel (prompt suggestions) closes when a message is sent,,Not Executed
+TC-CH-031,Pressing Enter sends the message,Frontend,"1. Navigate to /chat
+2. Type text in textarea
+3. Press Enter",Message: Hello,Message is sent (same as clicking Go),,Not Executed
+TC-CH-032,Pressing Shift+Enter inserts a newline instead of sending,Frontend,"1. Navigate to /chat
+2. Type text in textarea
+3. Press Shift+Enter",Message: Hello,A newline is inserted into the textarea; message is NOT sent,,Not Executed
+TC-CH-033,Typing indicator (3 dots) appears while awaiting AI response,Frontend,"1. Navigate to /chat
+2. Send any message
+3. Observe center column immediately after sending",,Three animated dots appear in an AI-styled bubble while loading=true,,Not Executed
+TC-CH-034,Chat scrolls to the bottom automatically after a new message,Frontend,"1. Navigate to /chat
+2. Build a long conversation
+3. Send a new message",,Chat area automatically scrolls to the latest message after each send,,Not Executed
+TC-CH-035,AI response appears as a left-aligned white bubble,Integration,"1. Navigate to /chat
+2. Send a message and wait for response",,AI reply appears on the left with white background border and model icon,,Not Executed
+TC-CH-036,Message timestamp is shown below each bubble,Frontend,"1. Navigate to /chat
+2. Send a message and receive a response",,Timestamp (locale time string) visible below user and AI message bubbles,,Not Executed
+TC-CH-037,API failure shows ""I could not reach the chat service. Please try again."",Integration,"1. Navigate to /chat
+2. Send a message while the API is unavailable",,AI bubble appears with text ""I could not reach the chat service. Please try again."",,Not Executed
+TC-CH-038,Expired guest session shows expiry message instead of sending,Integration,"1. Manually expire the guest session in localStorage
+2. Navigate to /chat
+3. Send a message",,AI bubble shows ""Guest session expired (3 hours limit). Please sign up to continue chatting."" ; no API call made,,Not Executed
+TC-CH-039,Sparkles button toggles the prompt suggestions panel,Frontend,"1. Navigate to /chat
+2. Click the Sparkles icon button in toolbar",,Prompt suggestions panel opens if closed / closes if open,,Not Executed
+TC-CH-040,CPanel shows category tab buttons,Frontend,"1. Navigate to /chat
+2. Ensure CPanel is open
+3. Observe tab row",,Multiple tab buttons visible (e.g. Use Cases etc.); active tab has accent style,,Not Executed
+TC-CH-041,Clicking a CPanel tab switches prompt suggestions,Frontend,"1. Navigate to /chat
+2. Open CPanel
+3. Click a different tab",Tab: second tab,Prompt chips below update to reflect the selected tab's prompts,,Not Executed
+TC-CH-042,Clicking a prompt suggestion chip sends it as a message,Frontend,"1. Navigate to /chat
+2. Open CPanel
+3. Click any prompt chip",,Chip text is sent as a message; CPanel closes,,Not Executed
+TC-CH-043,Sparkles button shows accent highlight when CPanel is open,Frontend,"1. Navigate to /chat
+2. Open CPanel
+3. Observe sparkles button style",,Sparkles button has accent-lt background and accent color when cpanelOpen=true,,Not Executed
+TC-CH-044,Voice input button turns red and animates when listening,Frontend,"1. Navigate to /chat
+2. Click the microphone icon button",,Mic button background turns red-tinted and pulses; isListening state = true,,Not Executed
+TC-CH-045,Clicking mic button again stops voice input,Frontend,"1. Navigate to /chat
+2. Click microphone to start
+3. Click again to stop",,Voice recognition stops; mic button returns to default muted color,,Not Executed
+TC-CH-046,Voice input with unsupported browser shows alert,Frontend,"1. In a browser without SpeechRecognition
+2. Navigate to /chat
+3. Click mic button",,Alert ""Voice input not supported in this browser."" is shown,,Not Executed
+TC-CH-047,TTS speaker button reads the last AI message,Frontend,"1. Navigate to /chat
+2. Receive at least one AI message
+3. Click the speaker icon button",,SpeechSynthesis speaks the last AI message content (up to 500 chars),,Not Executed
+TC-CH-048,TTS speaker button shows accent color while speaking,Frontend,"1. Navigate to /chat
+2. Receive an AI message
+3. Click speaker button",,Speaker icon button color changes to accent while isSpeaking=true,,Not Executed
+TC-CH-049,Clicking speaker again while speaking cancels TTS,Frontend,"1. Navigate to /chat
+2. Start TTS
+3. Click speaker button again",,SpeechSynthesis cancels; isSpeaking becomes false; button returns to muted color,,Not Executed
+TC-CH-050,Voice recording button shows timer counter while recording,Frontend,"1. Navigate to /chat
+2. Click the waveform (voice record) button
+3. Observe button while recording",,Button expands to show elapsed seconds counter (e.g. ""3s"") and animates,,Not Executed
+TC-CH-051,Stopping voice recording adds voice attachment chip above input,Frontend,"1. Navigate to /chat
+2. Start voice recording
+3. Click waveform button again to stop",,""🎙 Voice message (Ns)"" chip appears in attachment preview area above input bar",,Not Executed
+TC-CH-052,Microphone access denied shows alert,Frontend,"1. Navigate to /chat
+2. Click waveform recording button
+3. Deny microphone permission",,Alert ""Microphone access denied."" is displayed,,Not Executed
+TC-CH-053,Camera button opens camera modal with video preview,Frontend,"1. Navigate to /chat
+2. Click the camera icon button
+3. Grant camera permission",,Camera modal opens with live video preview and Capture / Cancel buttons,,Not Executed
+TC-CH-054,Capture button in camera modal adds image attachment,Frontend,"1. Navigate to /chat
+2. Open camera modal
+3. Click ""Capture""",,Modal closes; ""🖼 Image: camera-capture.jpg"" chip appears in attachment preview,,Not Executed
+TC-CH-055,Cancel button in camera modal closes it without attachment,Frontend,"1. Navigate to /chat
+2. Open camera modal
+3. Click ""Cancel""",,Modal closes; no attachment is added,,Not Executed
+TC-CH-056,Camera access denied shows alert and closes modal,Frontend,"1. Navigate to /chat
+2. Click camera button
+3. Deny camera permission",,Alert ""Camera access denied."" shown; camera modal does not open,,Not Executed
+TC-CH-057,Video recorder button opens video recording modal,Frontend,"1. Navigate to /chat
+2. Click the video camera icon button
+3. Grant camera/mic permission",,Video recorder modal opens with live preview and Start Recording / Cancel buttons,,Not Executed
+TC-CH-058,Start Recording button shows red REC badge with timer in video modal,Frontend,"1. Navigate to /chat
+2. Open video recorder
+3. Click ""Start Recording""",,Red ""REC Xs"" badge appears overlay on the video; timer increments each second,,Not Executed
+TC-CH-059,Stop & Attach adds video attachment and closes modal,Frontend,"1. Navigate to /chat
+2. Start video recording
+3. Click ""Stop & Attach""",,Modal closes; ""🎥 Video message (Ns)"" chip appears in attachment preview,,Not Executed
+TC-CH-060,Cancel in video recorder modal closes it without attachment,Frontend,"1. Navigate to /chat
+2. Open video recorder
+3. Click ""Cancel"" without recording",,Modal closes; no attachment is added; camera/mic stream is stopped,,Not Executed
+TC-CH-061,Camera/mic access denied in video recorder shows alert,Frontend,"1. Navigate to /chat
+2. Click video camera button
+3. Deny permission",,Alert ""Camera/microphone access denied."" shown; modal does not open,,Not Executed
+TC-CH-062,Paperclip button opens file picker dialog,Frontend,"1. Navigate to /chat
+2. Click the paperclip icon button",,System file picker dialog opens (multiple files allowed),,Not Executed
+TC-CH-063,Selecting an image file adds image attachment chip,Frontend,"1. Navigate to /chat
+2. Click paperclip and select an image file",File: photo.jpg,""🖼 Image: photo.jpg"" chip appears in attachment preview area above input bar",,Not Executed
+TC-CH-064,Selecting a non-image file adds file attachment chip,Frontend,"1. Navigate to /chat
+2. Click paperclip and select a PDF file",File: report.pdf,""📎 File: report.pdf"" chip appears in attachment preview area",,Not Executed
+TC-CH-065,Multiple files can be attached at once,Frontend,"1. Navigate to /chat
+2. Click paperclip and select 3 files",Files: a.jpg / b.png / c.pdf,Three attachment chips appear in the preview area,,Not Executed
+TC-CH-066,Clicking x on an attachment chip removes that attachment,Frontend,"1. Navigate to /chat
+2. Add an attachment
+3. Click the x button on the chip",,Chip is removed from the preview; attachment is no longer in the list,,Not Executed
+TC-CH-067,Go button becomes active when attachments exist (even with empty text),Frontend,"1. Navigate to /chat
+2. Add an attachment without typing any text",,Go button turns accent and is clickable even with empty textarea,,Not Executed
+TC-CH-068,Sending a message clears all attachment chips,Frontend,"1. Navigate to /chat
+2. Add an attachment
+3. Send the message",,Attachment preview area is empty after message is sent,,Not Executed
+TC-CH-069,Attachment chips are shown with message in chat bubble area,Integration,"1. Navigate to /chat
+2. Attach an image and send it",,Image thumbnail renders below the user message bubble in chat,,Not Executed
+TC-CH-070,Voice attachment renders as audio player in chat,Integration,"1. Navigate to /chat
+2. Record a voice message and send it",,Audio element with controls renders below the user message bubble,,Not Executed
+TC-CH-071,Video attachment renders as inline video player in chat,Integration,"1. Navigate to /chat
+2. Record a video and attach + send",,Video element with controls renders below the user message bubble,,Not Executed
+TC-CH-072,Usage overview Requests counter increments after each send,Frontend,"1. Navigate to /chat
+2. Note Requests count
+3. Send a message
+4. Observe count",,Requests count in right panel increments by 1 after each user message sent,,Not Executed
+TC-CH-073,Usage overview Replies counter increments after each AI response,Frontend,"1. Navigate to /chat
+2. Send a message and receive a response
+3. Observe Replies count",,Replies count in right panel increments by 1 after each AI response received,,Not Executed
+TC-CH-074,Files counter increments when message with attachment is sent,Frontend,"1. Navigate to /chat
+2. Attach a file and send
+3. Observe Files count",,Files count in right panel increments by the number of attachments sent,,Not Executed
+TC-CH-075,Usage sparkline bars update to reflect message activity,Frontend,"1. Navigate to /chat
+2. Send several messages
+3. Observe the 24-bar chart",,Bars in the usage chart change height proportionally to reflect message volume in each hour bucket,,Not Executed
+TC-CH-076,Clicking a Quick Action button sends it as a message,Frontend,"1. Navigate to /chat
+2. Click any Quick Action button in the right panel",,Action text is sent as a user message; response appears in chat,,Not Executed
+TC-CH-077,URL param ?model= pre-selects the specified model,Integration,"1. Navigate to /chat?model=claude-sonnet46",,Model matching the ID is pre-selected as active model on page load,,Not Executed
+TC-CH-078,URL param ?q= pre-populates input and auto-sends after 500ms,Integration,"1. Navigate to /chat?q=Hello","Query: Hello",Input is pre-filled with ""Hello"" and message is sent automatically after ~500ms,,Not Executed
+TC-CH-079,Guest session remaining time is shown correctly in banner,Integration,"1. Navigate to /chat as guest
+2. Read the guest banner time",,Banner displays correct remaining time based on session createdAt + 3h expiry window,,Not Executed
+TC-CH-080,Authenticated user chat messages are sent with userSessionId,Integration,"1. Log in
+2. Navigate to /chat
+3. Send two messages in the same session",,Both messages use the same sessionId returned by the first API response; second request includes that sessionId,,Not Executed

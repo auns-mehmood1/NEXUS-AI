@@ -1,0 +1,101 @@
+Test ID,Test Title,Layer,Test Steps,Test Data,Expected Result,Actual Result,Test Status
+TC-DB-001,Unauthenticated user is redirected to /auth/login,Integration,"1. Ensure no user is logged in
+2. Navigate to /dashboard",,Browser redirects to /auth/login; dashboard content is not rendered,,Not Executed
+TC-DB-002,Auth loading state renders centered ""Loading..."" text,UI,"1. Navigate to /dashboard while auth store is resolving",,Centered text ""Loading..."" is shown at 80vh height while isLoading is true,,Not Executed
+TC-DB-003,Dashboard layout renders a 2-column structure (sidebar + main),UI,"1. Log in and navigate to /dashboard
+2. Observe page structure",,220px white sidebar on the left and a flex-1 bg content area on the right are rendered,,Not Executed
+TC-DB-004,Sidebar displays the authenticated user's name and email,UI,"1. Log in and navigate to /dashboard
+2. Observe top of sidebar",,User name (Syne bold) and email (small text3) are visible at the top of the sidebar,,Not Executed
+TC-DB-005,Sidebar shows 4 navigation items: Overview / Chat History / Settings / Billing,UI,"1. Log in and navigate to /dashboard
+2. Observe sidebar nav items",,Four nav links with icons and labels: 📊 Overview / 💬 Chat History / ⚙️ Settings / 💳 Billing,,Not Executed
+TC-DB-006,Active sidebar item shows accent color bold weight and left border,UI,"1. Log in and navigate to /dashboard
+2. Observe the Overview nav item",,Overview item has accent text color + bold font + 3px accent left border + accent-lt background,,Not Executed
+TC-DB-007,Inactive sidebar items have muted text and no left border,UI,"1. Log in and navigate to /dashboard
+2. Observe non-active nav items",,Chat History / Settings / Billing items show text2 color + no border + no background highlight,,Not Executed
+TC-DB-008,Sidebar ""Overview"" link navigates to /dashboard,UI,"1. Log in and navigate to /dashboard/history
+2. Click Overview in sidebar",,Browser navigates to /dashboard; Overview item becomes active,,Not Executed
+TC-DB-009,Sidebar ""Chat History"" link navigates to /dashboard/history,UI,"1. Log in and navigate to /dashboard
+2. Click Chat History in sidebar",,Browser navigates to /dashboard/history; Chat History item becomes active,,Not Executed
+TC-DB-010,Sidebar ""Settings"" link navigates to /dashboard/settings,UI,"1. Log in and navigate to /dashboard
+2. Click Settings in sidebar",,Browser navigates to /dashboard/settings; Settings item becomes active,,Not Executed
+TC-DB-011,Sidebar ""Billing"" link navigates to /dashboard/billing,UI,"1. Log in and navigate to /dashboard
+2. Click Billing in sidebar",,Browser navigates to /dashboard/billing; Billing item becomes active,,Not Executed
+TC-DB-012,Sidebar ""Open Chat Hub →"" button navigates to /chat,UI,"1. Log in and navigate to /dashboard
+2. Click ""Open Chat Hub →"" button",,Browser navigates to /chat,,Not Executed
+TC-DB-013,""Open Chat Hub →"" button has accent background and is full-width,UI,"1. Log in and navigate to /dashboard
+2. Observe the sidebar footer button",,Accent-colored full-width pill button reading ""Open Chat Hub →"" is visible at the bottom of the sidebar,,Not Executed
+TC-DB-014,Main content shows ""Loading dashboard..."" while usage API call is in-flight,UI,"1. Log in and navigate to /dashboard
+2. Observe content area before API responds",,Text ""Loading dashboard..."" is visible in the main content while loading=true,,Not Executed
+TC-DB-015,Error state shows ""Unable to load usage right now."" when API fails,Integration,"1. Log in and navigate to /dashboard
+2. Simulate usage API failure",,Main content shows ""Unable to load usage right now."" in text2 color; no KPI cards rendered,,Not Executed
+TC-DB-016,Empty usage fallback shows ""No usage data available yet."" when API returns null,Integration,"1. Log in and navigate to /dashboard
+2. Simulate API returning null usage",,Main content shows ""No usage data available yet."" with no KPI cards,,Not Executed
+TC-DB-017,Greeting H1 shows ""Good morning {firstName}"" before noon,Frontend,"1. Log in between midnight and 11:59 AM
+2. Navigate to /dashboard",,H1 reads ""Good morning {first word of user.name}"",,Not Executed
+TC-DB-018,Greeting H1 shows ""Good afternoon {firstName}"" at noon and after,Frontend,"1. Log in at noon or later
+2. Navigate to /dashboard",,H1 reads ""Good afternoon {first word of user.name}"",,Not Executed
+TC-DB-019,Greeting uses only the first word of the user's full name,Frontend,"1. Log in as a user with a multi-word name (e.g. Jane Smith)
+2. Navigate to /dashboard","Name: Jane Smith",H1 shows ""Good morning Jane"" (not ""Good morning Jane Smith""),,Not Executed
+TC-DB-020,Subtitle reads ""Here's your NexusAI usage overview"",UI,"1. Log in and navigate to /dashboard
+2. Observe the paragraph below H1",,Subtitle text ""Here's your NexusAI usage overview"" is visible in text2 color,,Not Executed
+TC-DB-021,KPI grid renders 4 stat cards in auto-fit columns,UI,"1. Log in and navigate to /dashboard
+2. Observe the stats section",,4 white bordered cards in auto-fit grid (minmax 180px): Total Requests / Avg Latency / Total Cost / Models Used,,Not Executed
+TC-DB-022,""Total Requests"" card shows totalRequests value formatted with locale separators,UI,"1. Log in and navigate to /dashboard
+2. Observe Total Requests card",,Value shows totalRequests from API formatted with toLocaleString() (e.g. ""1,234""); sublabel ""All time"",,Not Executed
+TC-DB-023,""Avg Latency"" card shows avgLatency value with ""s"" suffix,UI,"1. Log in and navigate to /dashboard
+2. Observe Avg Latency card",,Value reads ""{avgLatency}s""; sublabel reads ""Last 24h"",,Not Executed
+TC-DB-024,""Total Cost"" card shows totalCost formatted to 2 decimal places with $ prefix,UI,"1. Log in and navigate to /dashboard
+2. Observe Total Cost card",,Value reads ""${totalCost.toFixed(2)}"" (e.g. ""$3.45""); sublabel reads ""This month"",,Not Executed
+TC-DB-025,""Models Used"" card shows count of topModels entries,UI,"1. Log in and navigate to /dashboard
+2. Observe Models Used card",,Value equals the length of usage.topModels array; sublabel reads ""Unique models"",,Not Executed
+TC-DB-026,""Requests — Last 24h"" chart section renders with title,UI,"1. Log in and navigate to /dashboard
+2. Observe the chart panel in the 2-column row",,White card with title ""Requests - Last 24h"" and a bar chart area of height 80px,,Not Executed
+TC-DB-027,24h bar chart renders one bar per hour (24 bars total),UI,"1. Log in and navigate to /dashboard
+2. Observe the bar chart",,Exactly 24 accent-colored vertical bars are rendered in the chart area,,Not Executed
+TC-DB-028,Bar heights are proportional to the max value in requests24h,Frontend,"1. Log in and navigate to /dashboard
+2. Compare bar heights to request counts",,The tallest bar reaches 100% height; all others scale proportionally (value/maxBar * 100%),,Not Executed
+TC-DB-029,Bars have a minimum height of 2px even when value is 0,Frontend,"1. Log in and navigate to /dashboard
+2. Observe bars with 0 requests",,Bars with 0 value still render at minHeight 2px; no bars collapse to invisible,,Not Executed
+TC-DB-030,Bar opacity increases from left (oldest) to right (most recent),UI,"1. Log in and navigate to /dashboard
+2. Compare bar opacity left to right",,Leftmost bars appear more transparent; rightmost bars appear most opaque,,Not Executed
+TC-DB-031,Chart x-axis labels show ""24h ago"" on the left and ""Now"" on the right,UI,"1. Log in and navigate to /dashboard
+2. Observe labels below the bar chart",,""24h ago"" is left-aligned and ""Now"" is right-aligned below the chart",,Not Executed
+TC-DB-032,""Top Models Used"" panel renders beside the 24h chart,UI,"1. Log in and navigate to /dashboard
+2. Observe the right panel in the 2-column row",,White card with title ""Top Models Used"" and model usage rows is rendered,,Not Executed
+TC-DB-033,Each top model row shows model icon name and request count,UI,"1. Log in and navigate to /dashboard
+2. Observe any row in Top Models Used",,Row shows: model icon + model name on the left + ""{N} req"" in text3 on the right,,Not Executed
+TC-DB-034,Each top model row shows a usage percentage bar,UI,"1. Log in and navigate to /dashboard
+2. Observe the bar below each model row",,Accent-colored bar fills width proportional to (model.requests / totalRequests * 100)%,,Not Executed
+TC-DB-035,Usage percentage bar width is 0% when totalRequests is 0,Frontend,"1. Log in and navigate to /dashboard with 0 totalRequests
+2. Observe top models bars",,All bars render at 0% width; no division-by-zero error occurs,,Not Executed
+TC-DB-036,Model icon resolves from the catalog model map by model ID,Frontend,"1. Log in and navigate to /dashboard
+2. Observe model icons in Top Models",,Icons shown match the icon field from the catalog for each model ID; unknown IDs render no icon,,Not Executed
+TC-DB-037,Quick links grid renders 4 action cards,UI,"1. Log in and navigate to /dashboard
+2. Observe the bottom grid",,4 white bordered cards in auto-fit grid: Open Chat Hub / Browse Models / Build Agent / View History,,Not Executed
+TC-DB-038,Each quick link card shows an icon title and description,UI,"1. Log in and navigate to /dashboard
+2. Observe any quick link card",,Card shows: text icon on left + bold title + small text3 description on right,,Not Executed
+TC-DB-039,""Open Chat Hub"" quick link navigates to /chat,Frontend,"1. Log in and navigate to /dashboard
+2. Click ""Open Chat Hub"" quick link card",,Browser navigates to /chat,,Not Executed
+TC-DB-040,""Browse Models"" quick link navigates to /marketplace,Frontend,"1. Log in and navigate to /dashboard
+2. Click ""Browse Models"" quick link card",,Browser navigates to /marketplace,,Not Executed
+TC-DB-041,""Build Agent"" quick link navigates to /agents,Frontend,"1. Log in and navigate to /dashboard
+2. Click ""Build Agent"" quick link card",,Browser navigates to /agents,,Not Executed
+TC-DB-042,""View History"" quick link navigates to /dashboard/history,Frontend,"1. Log in and navigate to /dashboard
+2. Click ""View History"" quick link card",,Browser navigates to /dashboard/history,,Not Executed
+TC-DB-043,Active sidebar item updates when navigating between dashboard sub-pages,Frontend,"1. Log in and navigate to /dashboard
+2. Click Chat History in sidebar
+3. Observe sidebar state",,Chat History becomes active (accent + border); Overview reverts to inactive style,,Not Executed
+TC-DB-044,Dashboard sidebar persists across all sub-pages (/history /settings /billing),UI,"1. Log in and navigate to /dashboard/history
+2. Observe sidebar presence",,Sidebar with user info + nav links + Open Chat Hub button is visible on sub-pages,,Not Executed
+TC-DB-045,KPI cards each have white background border border-radius and shadow,UI,"1. Log in and navigate to /dashboard
+2. Inspect any KPI card visually",,Cards render with white bg + 1px var(--border) + var(--radius) border-radius + var(--shadow),,Not Executed
+TC-DB-046,24h chart and Top Models panels are in a 2-column equal grid,UI,"1. Log in and navigate to /dashboard
+2. Observe the chart row layout",,Two panels sit side-by-side in a 1fr 1fr grid with 16px gap,,Not Executed
+TC-DB-047,Quick links grid uses auto-fit with min card width 200px,UI,"1. Log in and navigate to /dashboard
+2. Observe the quick links layout",,Cards are in auto-fit grid with minmax(200px 1fr); columns collapse responsively,,Not Executed
+TC-DB-048,Sidebar user section and nav items are separated by visible spacing,UI,"1. Log in and navigate to /dashboard
+2. Observe sidebar layout",,User name/email block has 1.5rem bottom margin before the nav links begin,,Not Executed
+TC-DB-049,Sidebar footer ""Open Chat Hub →"" is separated from nav by a top border,UI,"1. Log in and navigate to /dashboard
+2. Observe sidebar bottom section",,A 1px top border separates the Open Chat Hub button from the nav links above,,Not Executed
+TC-DB-050,Page title in browser tab matches the site-wide title,UI,"1. Log in and navigate to /dashboard
+2. Check browser tab title",,Tab title reads ""NexusAI — AI Model Hub · Discover, Compare & Deploy"",,Not Executed
